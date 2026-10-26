@@ -1,6 +1,6 @@
 # Project 03 — Supply Chain Demand Forecasting with Neural Networks & Automated Tuning
 
-**Status:** Implemented and locally verified. Nine automated tests pass; full random-search training and holdout comparison completed.
+**Status:** Implemented and locally verified. Ten automated tests pass; full random-search training and holdout comparison completed.
 
 ## Problem statement
 
@@ -12,7 +12,7 @@ Forecast daily retail demand per SKU using a feedforward neural network. Tune hi
 - Historical lag-1, lag-7 and trailing 7-day mean features using prior target values only.
 - Chronological train/validation/test split by date; no date appears in more than one partition.
 - PyTorch dense MLP with BatchNorm and Dropout.
-- Seeded random hyperparameter search with early stopping on validation loss.
+- Seeded random hyperparameter search with early stopping on validation loss; model initialization is seeded for reproducibility.
 - Final preprocessing and model refit on train + validation data; held-out later dates are used only for final comparison.
 - Random Forest baseline and regression metrics: RMSE, MAE, R² and sMAPE.
 - Hyperparameter table, validation-loss curve, test comparison, prediction chart, and automated tests.
@@ -23,10 +23,10 @@ Python 3.10–3.12 recommended. PyTorch CPU is sufficient; no GPU or API key is 
 
 ```bash
 python -m venv .venv
-# Windows: .venv\\Scripts\\activate
+# Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python -m src.train
 ```
@@ -51,15 +51,15 @@ python -c "from src.train import main; main(n_trials=2, max_epochs=5)"
 ## Verification summary
 
 - Python compilation: PASS
-- Unit tests: 9 passed, 0 failed
+- Unit tests: 10 passed, 0 failed
 - Full default training run: PASS (four random-search trials)
 - Generated synthetic rows: 9,650 across 50 SKUs
-- Selected hyperparameters in the verified run: hidden layers `[64, 32]`, dropout `0.10`, learning rate `0.003`, weight decay `0.0`, selected at epoch 17
-- Test-set MLP RMSE: approximately 18.59 demand units
+- Selected hyperparameters: hidden layers `[64, 32]`, dropout `0.10`, learning rate `0.003`, weight decay `0.0`, selected at epoch 25
+- Test-set MLP RMSE: approximately 15.59 demand units
 - Test-set Random Forest RMSE: approximately 14.09 demand units
 
-The Random Forest baseline performed better than the selected MLP in this synthetic run. The comparison is a result, not a reason to alter the metric or hide the baseline.
+The Random Forest baseline performed better on RMSE in this synthetic run, although the MLP also achieved positive held-out R². These results are reported as observed; the model is not forced to win against the baseline.
 
 ## Limitations
 
-This is synthetic data and a one-step-ahead rolling forecast where the previous observed demand is available for lag features, including during the later holdout dates. It is not a multi-step forecast and has not been validated on real sales data. Real deployment requires time-aware backtesting, promotion-calendar checks, SKU/region coverage checks, drift monitoring, inventory-cost-aware metrics and stakeholder review.
+This is synthetic data and a one-step-ahead rolling forecast where the previous observed demand is available for lag features, including during the later holdout dates. It is not a multi-step forecast and has not been validated on real sales data. Real deployment needs time-aware backtesting, promotion-calendar checks, SKU/region coverage checks, drift monitoring, inventory-cost-aware metrics and stakeholder review.
