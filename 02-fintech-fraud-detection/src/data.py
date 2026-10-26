@@ -73,14 +73,14 @@ def validate_transactions(df: pd.DataFrame) -> pd.DataFrame:
     out = out.dropna(subset=["transaction_id", "customer_id", TARGET])
     out = out[out[TARGET].isin([0, 1])]
     out = out.replace([np.inf, -np.inf], np.nan)
-    for col in NUMERIC_FEATURES:
-        out[col] = out[col].fillna(out[col].median())
+    # Numeric NaNs remain until a model pipeline fits an imputer on training rows.
+    # Pre-split median imputation would leak test-set feature statistics into training.
     out["device_id"] = out["device_id"].fillna("unknown-device").astype(str)
-    out = out[out["amount"] >= 0]
-    out = out[out["location_delta_km"] >= 0]
-    out = out[out["transactions_last_hour"] >= 0]
-    out = out[out["account_age_days"] >= 0]
-    out = out[out["hour_of_day"].between(0, 23)]
+    out = out[out["amount"].isna() | (out["amount"] >= 0)]
+    out = out[out["location_delta_km"].isna() | (out["location_delta_km"] >= 0)]
+    out = out[out["transactions_last_hour"].isna() | (out["transactions_last_hour"] >= 0)]
+    out = out[out["account_age_days"].isna() | (out["account_age_days"] >= 0)]
+    out = out[out["hour_of_day"].isna() | out["hour_of_day"].between(0, 23)]
     out[TARGET] = out[TARGET].astype(int)
     if out.empty:
         raise ValueError("No valid transactions remain after cleaning.")
