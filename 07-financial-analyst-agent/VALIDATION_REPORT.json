@@ -1,29 +1,72 @@
 {
   "project": "07-financial-analyst-agent",
-  "status": "IMPLEMENTED_PENDING_RETEST_AFTER_SEARCH_RANKING_FIX",
+  "status": "VERIFIED_IN_GOOGLE_COLAB",
   "validation_environment": {
     "platform": "Google Colab",
-    "python_version": "Not captured in screenshot"
+    "python_version": "Not captured in screenshot",
+    "dependencies": "Python standard library only"
   },
-  "python_compile": "PENDING",
+  "python_compile": "PASS (all tests imported and executed)",
   "unit_tests": {
-    "status": "PENDING",
-    "expected_count": 20,
-    "passed": null,
-    "failed": null
+    "status": "PASS",
+    "passed": 20,
+    "failed": 0,
+    "evidence": "User-provided Google Colab screenshot shows Ran 20 tests and OK."
   },
   "agent_evaluation": {
-    "status": "PENDING",
+    "status": "PASS",
     "cases": 4,
-    "answer_coverage": null,
-    "note": "Hand-authored synthetic smoke set. It checks tool routing/citation paths, not financial correctness."
+    "answer_coverage": 1,
+    "results": [
+      {
+        "question": "What was ACME Systems operating margin in Q4?",
+        "matched": true,
+        "trace_steps": 2,
+        "expected_result": "ACME Systems; 2025-Q4"
+      },
+      {
+        "question": "Compare Q3 to Q4 revenue growth across the companies.",
+        "matched": true,
+        "trace_steps": 4,
+        "expected_result": "Cobalt Manufacturing and Q3/Q4 financial citations"
+      },
+      {
+        "question": "What are the main liquidity and leverage risks?",
+        "matched": true,
+        "trace_steps": 1,
+        "expected_result": "risk_register.md; Liquidity and leverage section"
+      },
+      {
+        "question": "Show Q4 cash and debt for the companies.",
+        "matched": true,
+        "trace_steps": 1,
+        "expected_result": "2025-Q4; quarterly financial records"
+      }
+    ],
+    "note": "Hand-authored synthetic smoke set checking tool routing and citations, not financial correctness."
   },
+  "cli_smoke_tests": [
+    {
+      "status": "PASS",
+      "question": "What was ACME Systems operating margin in Q4?",
+      "observed_answer": "15.00%",
+      "trace": [
+        "read_only_sql",
+        "calculator"
+      ]
+    },
+    {
+      "status": "PASS",
+      "question": "What are the main liquidity and leverage risks?",
+      "observed_output": "Returned a relevant passage containing the Liquidity and leverage heading from risk_register.md."
+    }
+  ],
   "implemented_capabilities": [
     "Synthetic quarterly financials for three fictional companies",
     "Read-only and allowlisted SQLite SQL tool",
     "Parameter binding, SQL comment/multi-statement rejection, row cap and query execution budget",
     "Restricted arithmetic calculator without eval",
-    "Local document search with citations",
+    "Local document search with normalized simple plurals and heading-aware ranking",
     "Deterministic tool planner and action/observation trace",
     "Operating margin and revenue change calculations",
     "Abstention for personalized investment recommendation requests",
@@ -34,20 +77,5 @@
     "The planner is deterministic and supports a finite set of question patterns.",
     "No current market information is retrieved.",
     "This project is not financial or investment advice."
-  ],
-  "latest_colab_run": {
-    "status": "FAIL_ONE_TEST_AFTER_FIRST_REFINEMENT",
-    "unit_tests": {
-      "expected": 20,
-      "passed": 19,
-      "failed": 1
-    },
-    "failing_checks": [
-      "test_risk_question_uses_document_search",
-      "test_search_returns_relevant_source_citation"
-    ],
-    "symptom": "The 'Data and model risks' section still ranked above 'Liquidity and leverage' for a query about liquidity and leverage risks.",
-    "change_applied": "Canonicalize simple plurals to one token, remove question filler, and increase direct heading-match weight so the exact topical section ranks first.",
-    "rerun_required": true
-  }
+  ]
 }

@@ -1,6 +1,6 @@
 # Project 07 — Autonomous Financial Analyst Agent
 
-**Status:** Implemented; the first two Google Colab runs exposed a section-ranking issue in research-note search. The current fix canonicalizes simple plurals to avoid counting both `risk` and `risks`, filters question filler, and gives direct heading matches a stronger score. Run the suite again to verify this refinement.
+**Status:** Verified in Google Colab. All 20 automated tests pass, the four-case agent evaluation reports 100% answer coverage on its synthetic smoke set, the operating-margin example calculates 15.00%, and research-note search returns the relevant Liquidity and leverage section. See VALIDATION_REPORT.json.
 
 ## Objective
 
