@@ -18,7 +18,7 @@ Build a dual-model baseline that estimates Remaining Useful Life (RUL) in hours 
 
 ```bash
 python -m venv .venv
-# Windows: .venv\\Scripts\\activate
+# Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
