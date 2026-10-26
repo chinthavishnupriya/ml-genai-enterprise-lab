@@ -10,7 +10,7 @@ A 10-project hands-on lab based on the supplied Real-World ML & GenAI problem-st
 - **Project 04 — Customer Support Intent Router:** implemented and verified locally and in Google Colab. Thirteen automated tests pass, and an 18-ticket handcrafted synthetic benchmark is included; its score is not a production accuracy estimate.
 - **Project 05 — Healthcare Clinical Manual Ingestion & RAG:** implemented and verified locally and in Google Colab. Fourteen unit tests pass; source-cited extractive retrieval and a synthetic demonstration corpus are included. It is not a clinical decision tool.
 - **Project 06 — Legal Contract Q&A with Hybrid Search:** implemented and verified in Google Colab. Sixteen tests pass and the six-query fictional-contract retrieval evaluation has Recall@5 = 1.0 and MRR@5 = 1.0. These are retrieval smoke-test results, not legal correctness metrics.
-- **Project 07 — Autonomous Financial Analyst Agent:** implemented; validation is pending. Includes read-only SQLite queries, a restricted calculator, local research retrieval, sourced responses, and an explicit tool execution trace using fictional data.
+- **Project 07 — Autonomous Financial Analyst Agent:** implemented; first Colab run had 19 passing tests and one document-search ranking failure. A heading-aware search refinement has been committed; verification is pending a rerun. Includes read-only SQLite queries, a restricted calculator, local research retrieval, sourced responses, and an explicit tool execution trace using fictional data.
 - **Projects 08–10:** starter folders exist; implementations and validation are pending.
 
 ## Project index

@@ -182,7 +182,15 @@ class LocalDocumentSearchTool:
             raise ValueError("Document search query must not be blank")
         if not 1 <= top_k <= 10:
             raise ValueError("top_k must be between 1 and 10")
-        terms = {term for term in re.findall(r"[a-z0-9]+", query.casefold()) if len(term) > 2}
+        # Remove question filler so content and section titles drive relevance.
+        search_stopwords = {
+            "what", "are", "the", "main", "and", "for", "how", "when", "where",
+            "is", "was", "were", "with", "from", "about", "should", "can", "does",
+            "do", "this", "that", "their", "they", "you", "your", "please", "show",
+            "tell", "me", "give", "some", "any", "to", "of", "in", "on", "a", "an",
+        }
+        raw_terms = {term for term in re.findall(r"[a-z0-9]+", query.casefold()) if len(term) > 2}
+        terms = raw_terms - search_stopwords
         query_terms = terms | {term[:-1] for term in terms if len(term) > 4 and term.endswith("s")}
         results = []
         for path in sorted(self.document_dir.rglob("*")) if self.document_dir.exists() else []:
@@ -204,10 +212,18 @@ class LocalDocumentSearchTool:
             if body:
                 chunks.append((heading, "\n".join(body).strip()))
             for section, chunk in chunks:
-                chunk_terms = set(re.findall(r"[a-z0-9]+", (section + " " + chunk).casefold()))
+                chunk_terms_raw = set(re.findall(r"[a-z0-9]+", (section + " " + chunk).casefold()))
+                chunk_terms = chunk_terms_raw | {
+                    term[:-1] for term in chunk_terms_raw if len(term) > 4 and term.endswith("s")
+                }
                 overlap = query_terms & chunk_terms
                 if overlap:
-                    score = len(overlap) / max(1, len(query_terms))
+                    title_terms_raw = set(re.findall(r"[a-z0-9]+", section.casefold()))
+                    title_terms = title_terms_raw | {
+                        term[:-1] for term in title_terms_raw if len(term) > 4 and term.endswith("s")
+                    }
+                    title_overlap = len(query_terms & title_terms)
+                    score = len(overlap) / max(1, len(query_terms)) + 0.25 * title_overlap
                     results.append({"source": path.name, "section": section, "text": chunk, "score": round(score, 4)})
         results.sort(key=lambda x: (-x["score"], x["source"], x["section"]))
         results = results[:top_k]

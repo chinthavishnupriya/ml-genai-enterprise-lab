@@ -1,6 +1,6 @@
 # Project 07 — Autonomous Financial Analyst Agent
 
-**Status:** Implemented; ready for Google Colab validation. The offline prototype combines controlled tools, a visible action/observation trace, synthetic financial data, and cited local research notes.
+**Status:** Implemented; one of 20 tests failed in the first Google Colab run due to document-search relevance ranking. A fix now removes question filler words, normalizes simple plurals, and weights heading matches; rerun the full test suite to confirm the fix.
 
 ## Objective
 

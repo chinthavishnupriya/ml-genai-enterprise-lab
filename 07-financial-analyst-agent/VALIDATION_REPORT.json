@@ -1,7 +1,10 @@
 {
   "project": "07-financial-analyst-agent",
-  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
-  "validation_environment": null,
+  "status": "IMPLEMENTED_PENDING_RETEST_AFTER_DOCUMENT_SEARCH_FIX",
+  "validation_environment": {
+    "platform": "Google Colab",
+    "python_version": "Not captured in screenshot"
+  },
   "python_compile": "PENDING",
   "unit_tests": {
     "status": "PENDING",
@@ -31,5 +34,17 @@
     "The planner is deterministic and supports a finite set of question patterns.",
     "No current market information is retrieved.",
     "This project is not financial or investment advice."
-  ]
+  ],
+  "latest_colab_run": {
+    "status": "FAIL_ONE_TEST",
+    "unit_tests": {
+      "expected": 20,
+      "passed": 19,
+      "failed": 1
+    },
+    "failing_test": "test_risk_question_uses_document_search",
+    "symptom": "The query about liquidity and leverage risks returned unrelated research sections before the exact Liquidity and leverage section.",
+    "change_applied": "Search now filters common question filler, normalizes simple plurals in both query and document, and gives a modest relevance bonus to section-heading matches.",
+    "rerun_required": true
+  }
 }
