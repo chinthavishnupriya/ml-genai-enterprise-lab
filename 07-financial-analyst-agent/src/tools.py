@@ -189,9 +189,16 @@ class LocalDocumentSearchTool:
             "do", "this", "that", "their", "they", "you", "your", "please", "show",
             "tell", "me", "give", "some", "any", "to", "of", "in", "on", "a", "an",
         }
+        def normalize_token(term: str) -> str:
+            if len(term) > 5 and term.endswith("ies"):
+                return term[:-3] + "y"
+            if len(term) > 4 and term.endswith("s") and not term.endswith(("ss", "us", "is")):
+                return term[:-1]
+            return term
+
         raw_terms = {term for term in re.findall(r"[a-z0-9]+", query.casefold()) if len(term) > 2}
-        terms = raw_terms - search_stopwords
-        query_terms = terms | {term[:-1] for term in terms if len(term) > 4 and term.endswith("s")}
+        terms = {normalize_token(term) for term in raw_terms - search_stopwords}
+        query_terms = terms
         results = []
         for path in sorted(self.document_dir.rglob("*")) if self.document_dir.exists() else []:
             if not path.is_file() or path.suffix.lower() not in {".md", ".txt"}:
@@ -212,18 +219,19 @@ class LocalDocumentSearchTool:
             if body:
                 chunks.append((heading, "\n".join(body).strip()))
             for section, chunk in chunks:
-                chunk_terms_raw = set(re.findall(r"[a-z0-9]+", (section + " " + chunk).casefold()))
-                chunk_terms = chunk_terms_raw | {
-                    term[:-1] for term in chunk_terms_raw if len(term) > 4 and term.endswith("s")
+                chunk_terms = {
+                    normalize_token(term)
+                    for term in re.findall(r"[a-z0-9]+", (section + " " + chunk).casefold())
                 }
                 overlap = query_terms & chunk_terms
                 if overlap:
-                    title_terms_raw = set(re.findall(r"[a-z0-9]+", section.casefold()))
-                    title_terms = title_terms_raw | {
-                        term[:-1] for term in title_terms_raw if len(term) > 4 and term.endswith("s")
+                    title_terms = {
+                        normalize_token(term)
+                        for term in re.findall(r"[a-z0-9]+", section.casefold())
                     }
                     title_overlap = len(query_terms & title_terms)
-                    score = len(overlap) / max(1, len(query_terms)) + 0.25 * title_overlap
+                    # A direct heading match should outrank an incidental body-text match.
+                    score = len(overlap) / max(1, len(query_terms)) + 0.5 * title_overlap
                     results.append({"source": path.name, "section": section, "text": chunk, "score": round(score, 4)})
         results.sort(key=lambda x: (-x["score"], x["source"], x["section"]))
         results = results[:top_k]

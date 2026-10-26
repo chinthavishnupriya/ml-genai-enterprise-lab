@@ -1,6 +1,6 @@
 {
   "project": "07-financial-analyst-agent",
-  "status": "IMPLEMENTED_PENDING_RETEST_AFTER_DOCUMENT_SEARCH_FIX",
+  "status": "IMPLEMENTED_PENDING_RETEST_AFTER_SEARCH_RANKING_FIX",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "Not captured in screenshot"
@@ -36,15 +36,18 @@
     "This project is not financial or investment advice."
   ],
   "latest_colab_run": {
-    "status": "FAIL_ONE_TEST",
+    "status": "FAIL_ONE_TEST_AFTER_FIRST_REFINEMENT",
     "unit_tests": {
       "expected": 20,
       "passed": 19,
       "failed": 1
     },
-    "failing_test": "test_risk_question_uses_document_search",
-    "symptom": "The query about liquidity and leverage risks returned unrelated research sections before the exact Liquidity and leverage section.",
-    "change_applied": "Search now filters common question filler, normalizes simple plurals in both query and document, and gives a modest relevance bonus to section-heading matches.",
+    "failing_checks": [
+      "test_risk_question_uses_document_search",
+      "test_search_returns_relevant_source_citation"
+    ],
+    "symptom": "The 'Data and model risks' section still ranked above 'Liquidity and leverage' for a query about liquidity and leverage risks.",
+    "change_applied": "Canonicalize simple plurals to one token, remove question filler, and increase direct heading-match weight so the exact topical section ranks first.",
     "rerun_required": true
   }
 }

@@ -1,6 +1,6 @@
 # Project 07 — Autonomous Financial Analyst Agent
 
-**Status:** Implemented; one of 20 tests failed in the first Google Colab run due to document-search relevance ranking. A fix now removes question filler words, normalizes simple plurals, and weights heading matches; rerun the full test suite to confirm the fix.
+**Status:** Implemented; the first two Google Colab runs exposed a section-ranking issue in research-note search. The current fix canonicalizes simple plurals to avoid counting both `risk` and `risks`, filters question filler, and gives direct heading matches a stronger score. Run the suite again to verify this refinement.
 
 ## Objective
 
