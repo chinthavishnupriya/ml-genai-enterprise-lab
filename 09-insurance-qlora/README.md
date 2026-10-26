@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Implemented; Colab verification is pending. The default offline workflow generates 64 fictional claim examples, prepares scenario-grouped train/validation/test splits, validates structured triage outputs, and evaluates a transparent rules baseline. An optional CUDA/GPU script fine-tunes a small instruction model using LoRA or NF4 QLoRA.
+**Status:** Offline workflow verified in Google Colab: all 20 tests passed, split generation produced 48/8/8 examples, the 8-example rules-baseline evaluation matched all three expected fields, and the sample CLI requested the missing repair estimate while requiring human review. Optional LoRA/QLoRA fine-tuning remains unverified because the current Colab runtime has no CUDA GPU enabled.
 
 ## Objective
 
@@ -31,11 +31,11 @@ Use the existing repository clone from previous projects. If it is present, pull
 !python -m src.predict --claim-type auto_collision --description "Synthetic parking-lot collision" --documents incident_report,damage_photos
 ~~~
 
-The default workflow uses only the Python standard library. The generated data/processed files are ignored by Git. The rules baseline should request repair_estimate in the sample above and keep human review mandatory.
+The default workflow uses only the Python standard library. In the verified Colab run, all 20 tests passed; the scenario-grouped data split was 48 train / 8 validation / 8 test. The rules baseline matched all expected fields on the eight synthetic test examples and the sample CLI requested repair_estimate while keeping human review mandatory. These results test program logic only; they are not real claims accuracy. The generated data/processed files are ignored by Git.
 
 ## Step 2 — Optional LoRA/QLoRA training
 
-Actual fine-tuning requires a compatible CUDA GPU, model download access, adequate storage, and compatible PyTorch/Transformers/PEFT/bitsandbytes versions. In Colab, select Runtime → Change runtime type → GPU before attempting training. Do not start this step for simple project verification.
+Actual fine-tuning has not been run: the current Colab attempt reported that a CUDA GPU is required. It requires a compatible CUDA GPU, model download access, adequate storage, and compatible PyTorch/Transformers/PEFT/bitsandbytes versions. In Colab, select Runtime → Change runtime type → GPU before attempting training. Do not start this step for simple project verification.
 
 Install the larger, optional environment separately:
 

@@ -1,34 +1,63 @@
 {
   "project": "09-insurance-qlora",
-  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
-  "validation_environment": null,
+  "status": "OFFLINE_WORKFLOW_VERIFIED_IN_GOOGLE_COLAB",
+  "validation_environment": {
+    "platform": "Google Colab",
+    "python_version": "Not captured in screenshot",
+    "offline_dependencies": "Python standard library only"
+  },
   "offline_tests": {
-    "status": "PENDING",
+    "status": "PASS",
     "expected_count": 20,
-    "passed": null,
-    "failed": null
+    "passed": 20,
+    "failed": 0,
+    "evidence": "User-provided Google Colab screenshot shows Ran 20 tests and OK."
   },
   "synthetic_dataset": {
-    "status": "IMPLEMENTED_PENDING_VERIFICATION",
+    "status": "PASS",
     "total_examples": 64,
     "train_examples": 48,
     "validation_examples": 8,
     "test_examples": 8,
     "split_method": "scenario-group split",
-    "scenario_groups_shared_across_splits": false
+    "scenario_groups_shared_across_splits": false,
+    "observed_split_output": {
+      "train": 48,
+      "validation": 8,
+      "test": 8
+    }
   },
   "rules_baseline_evaluation": {
-    "status": "PENDING",
-    "route_accuracy": null,
-    "next_step_accuracy": null,
-    "missing_documents_accuracy": null,
+    "status": "PASS",
+    "test_examples": 8,
+    "route_accuracy": 1,
+    "next_step_accuracy": 1,
+    "missing_documents_accuracy": 1,
+    "evidence": "Colab screenshot showed the synthetic evaluation's matching flags true across the eight held-out examples; unit tests assert all three summary metrics equal 1.0.",
     "note": "Generated labels share the documented routing rules; these scores validate program logic only, not real claims accuracy."
+  },
+  "sample_cli_test": {
+    "status": "PASS",
+    "claim_type": "auto_collision",
+    "submitted_documents": [
+      "incident_report",
+      "damage_photos"
+    ],
+    "expected_missing_documents": [
+      "repair_estimate"
+    ],
+    "observed_next_step": "request_missing_documents",
+    "human_review_required": true,
+    "note": "Synthetic sample only."
   },
   "lora_qlora_training": {
     "status": "NOT_RUN",
     "default_base_model": "Qwen/Qwen2.5-0.5B-Instruct",
     "adapter_created": false,
-    "note": "GPU training is optional and has not been run. The implementation uses Transformers Trainer and PEFT; QLoRA uses bitsandbytes NF4 4-bit loading."
+    "attempted": true,
+    "blocker": "Current Colab runtime reported that a CUDA GPU is required. The offline workflow passed, but GPU adapter training was not executed.",
+    "next_step": "Enable a compatible GPU runtime, then rerun training if GPU training is required.",
+    "note": "The optional training script uses Transformers Trainer and PEFT; QLoRA uses bitsandbytes NF4 4-bit loading."
   },
   "implemented_capabilities": [
     "Synthetic instruction example generation",
@@ -43,7 +72,7 @@
   "limitations": [
     "No real insurance/claimant data is included.",
     "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "GPU fine-tuning and adapter evaluation require external model downloads and were not run in this validation report.",
+    "GPU fine-tuning and adapter evaluation have not been run; the current Colab runtime had no CUDA GPU enabled.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
   ]
 }
