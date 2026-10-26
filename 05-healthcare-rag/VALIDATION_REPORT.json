@@ -16,8 +16,8 @@
   "retrieval_evaluation": {
     "status": "PASS",
     "cases": 3,
-    "recall_at_3": 1.0,
-    "mrr_at_3": 1.0,
+    "recall_at_3": 1,
+    "mrr_at_3": 1,
     "queries": [
       {
         "query": "What information should I prepare before an appointment?",
@@ -51,5 +51,29 @@
     "Retrieval evaluation uses three hand-authored queries; it is not clinical validation.",
     "PDF ingestion implementation depends on pypdf and was not exercised in this validation run.",
     "The tool is not a diagnosis, triage or treatment decision system."
-  ]
+  ],
+  "colab_verification": {
+    "status": "PASS",
+    "evidence": "User-provided Google Colab screenshot",
+    "unit_tests": {
+      "status": "PASS",
+      "passed": 14,
+      "failed": 0,
+      "observed_output": "Ran 14 tests ... OK"
+    },
+    "retrieval_evaluation": {
+      "status": "PASS",
+      "recall_at_3": 1,
+      "mrr_at_3": 1,
+      "note": "Three hand-authored synthetic retrieval queries, not clinical validation."
+    },
+    "cli_smoke_test": {
+      "status": "PASS",
+      "query": "What information should I prepare before an appointment?",
+      "source": "appointment_preparation.md",
+      "abstained": false,
+      "citation_returned": true
+    },
+    "environment_versions": "Not captured in the screenshot."
+  }
 }
