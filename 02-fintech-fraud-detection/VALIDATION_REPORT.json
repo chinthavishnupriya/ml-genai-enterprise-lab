@@ -1,0 +1,66 @@
+{
+  "python_compile": "PASS",
+  "unit_tests": {
+    "status": "PASS",
+    "passed": 7,
+    "failed": 0
+  },
+  "classification_training": "PASS",
+  "customer_segmentation": "PASS",
+  "data": {
+    "type": "synthetic demonstration data",
+    "transactions": 12000,
+    "customers": 1200,
+    "fraud_count": 746,
+    "fraud_rate": 0.06216666666666667
+  },
+  "classifier_test_metrics": {
+    "Decision Tree": {
+      "threshold": 0.6,
+      "roc_auc": 0.7113274040769353,
+      "average_precision": 0.19449413372255175,
+      "precision": 0.18393782383419688,
+      "recall": 0.47651006711409394,
+      "f1": 0.26542056074766357,
+      "confusion_matrix_tn_fp_fn_tp": [
+        1936,
+        315,
+        78,
+        71
+      ]
+    },
+    "Random Forest": {
+      "threshold": 0.49999999999999994,
+      "roc_auc": 0.7875515430874868,
+      "average_precision": 0.2308155223683976,
+      "precision": 0.1917808219178082,
+      "recall": 0.4697986577181208,
+      "f1": 0.2723735408560311,
+      "confusion_matrix_tn_fp_fn_tp": [
+        1956,
+        295,
+        79,
+        70
+      ]
+    }
+  },
+  "segmentation_metrics": {
+    "customer_count": 1200,
+    "candidate_k": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "selected_k_by_silhouette": 2,
+    "selected_silhouette_score": 0.3205074718278295
+  },
+  "limitations": [
+    "Synthetic metrics do not indicate real-world fraud performance.",
+    "Thresholds are selected on validation data; metrics are reported on the held-out test split.",
+    "Real deployment needs temporal/customer-aware validation, leakage and fairness review, cost-sensitive decision policy, monitoring, privacy/security review, and human oversight."
+  ]
+}
