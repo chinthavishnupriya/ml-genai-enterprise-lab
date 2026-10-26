@@ -4,9 +4,10 @@ A 10-project hands-on lab based on the supplied Real-World ML & GenAI problem-st
 
 ## Progress
 
-- **Project 01 — Industrial IoT Failure Prediction:** implemented and re-audited. Six automated tests pass. Regression and classification were rerun with grouped train/validation/test splits; missing numeric values are imputed inside the training pipelines, and the failure threshold is selected using validation data only.
-- **Project 02 — Fintech Fraud Detection & Customer Segmentation:** implemented and re-audited. Seven automated tests pass. Decision Tree and Random Forest are compared on a held-out test split, and K-Means selects customer segments. Numeric imputation is fit inside model pipelines using training rows only.
-- **Projects 03–10:** starter folders exist; implementations and validation are pending.
+- **Project 01 — Industrial IoT Failure Prediction:** implemented and re-audited. Six automated tests pass. Regression and classification use grouped train/validation/test splits; the failure threshold is selected using validation data only and sensor imputation is learned from training rows only.
+- **Project 02 — Fintech Fraud Detection & Customer Segmentation:** implemented and re-audited. Seven automated tests pass. Decision Tree and Random Forest are compared on held-out test data, and K-Means generates customer segments. Numeric imputation is learned from training rows only.
+- **Project 03 — Supply Chain Demand Forecasting:** implemented and verified. Nine automated tests pass; full end-to-end random search and holdout evaluation completed. Includes PyTorch MLP with BatchNorm/Dropout, hyperparameter tuning, and a Random Forest baseline. In this synthetic run, Random Forest outperformed the MLP.
+- **Projects 04–10:** starter folders exist; implementations and validation are pending.
 
 ## Project index
 
@@ -27,4 +28,4 @@ Read the README inside each project directory for dependencies, setup, execution
 
 ## Data, reproducibility, and safety
 
-Projects 01 and 02 use synthetic demonstration data. Their reported metrics show that code paths execute and are not evidence of production-quality predictions. Do not commit private data, credentials, tokens, or local `.env` files. Any real-world use requires domain-specific validation, security/privacy review, monitoring, and human oversight.
+Projects 01–03 use synthetic demonstration data. Their metrics show the code paths execute; they are not evidence of production-quality predictions. Do not commit private data, credentials, tokens, or local `.env` files. Real-world use requires domain-specific validation, security/privacy review, monitoring, and human oversight.
