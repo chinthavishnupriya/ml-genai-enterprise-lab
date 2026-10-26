@@ -21,6 +21,8 @@ Forecast daily retail demand per SKU using a feedforward neural network. Tune hi
 
 Python 3.10–3.12 recommended. PyTorch CPU is sufficient; no GPU or API key is required.
 
+The project pins the CPU-only PyTorch wheel in `requirements.txt` to avoid downloading CUDA/GPU packages on CPU machines. If a previous installation timed out, rerun `python -m pip install --timeout 120 --retries 5 -r requirements.txt`. Then verify with `python -c "import torch; print(torch.__version__); print('CUDA available:', torch.cuda.is_available())"`; the version should include `+cpu`.
+
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
