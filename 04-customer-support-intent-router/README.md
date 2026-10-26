@@ -34,7 +34,7 @@ The CLI prints validated JSON with fields: ticket_id, category, priority, confid
 
 ### Optional LLM provider
 
-Copy .env.example to .env and set OPENAI_API_KEY in your environment (never commit .env). Then run:
+Use .env.example as a reference for the required variables, then export OPENAI_API_KEY in your shell (do not commit an actual secret file). The adapter reads environment variables directly; it does not automatically load a .env file. Then run:
 
 ~~~bash
 python -m src.cli --provider openai --ticket-id T-1002 --subject "Login issue" --message "I cannot log in to my account."
