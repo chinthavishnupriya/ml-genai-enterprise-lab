@@ -225,8 +225,26 @@ class SentenceTransformerVectorIndex:
         return sorted(ranked, key=lambda item: (-item[1], self.clauses[item[0]].source, self.clauses[item[0]].clause_id))
 
 
+class SentenceTransformerCrossEncoder:
+    """Optional cross-encoder reranker for query/clause pairs."""
+
+    def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2") -> None:
+        try:
+            from sentence_transformers import CrossEncoder
+        except ImportError as exc:
+            raise RuntimeError(
+                "Cross-encoder reranking requires the optional sentence-transformers package."
+            ) from exc
+        self.model = CrossEncoder(model_name)
+
+    def rank(self, query: str, clauses: Sequence[Clause]) -> list[float]:
+        pairs = [(query, clause.searchable_text) for clause in clauses]
+        scores = self.model.predict(pairs, show_progress_bar=False)
+        return [float(score) for score in scores]
+
+
 class LegalHybridRAG:
-    """BM25 + vector retrieval, Reciprocal Rank Fusion, and lightweight reranking."""
+    """BM25 + vector retrieval, Reciprocal Rank Fusion, and candidate reranking."""
 
     def __init__(
         self,
@@ -234,12 +252,16 @@ class LegalHybridRAG:
         *,
         vector_backend: str = "tfidf",
         embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+        reranker_backend: str = "lexical",
+        cross_encoder_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2",
         rrf_k: int = 60,
     ) -> None:
         if not clauses:
             raise ValueError("Cannot create a legal index without clauses")
         if vector_backend not in {"tfidf", "sentence-transformers"}:
             raise ValueError("vector_backend must be 'tfidf' or 'sentence-transformers'")
+        if reranker_backend not in {"lexical", "cross-encoder"}:
+            raise ValueError("reranker_backend must be 'lexical' or 'cross-encoder'")
         self.clauses = list(clauses)
         self.bm25 = BM25Index(self.clauses)
         if vector_backend == "sentence-transformers":
@@ -247,6 +269,11 @@ class LegalHybridRAG:
         else:
             self.vector_index = TfidfVectorIndex(self.clauses)
         self.vector_backend = vector_backend
+        self.reranker_backend = reranker_backend
+        self.cross_encoder_reranker = (
+            SentenceTransformerCrossEncoder(cross_encoder_model)
+            if reranker_backend == "cross-encoder" else None
+        )
         self.rrf_k = rrf_k
 
     @classmethod
@@ -278,6 +305,15 @@ class LegalHybridRAG:
             rerank_score = rrf + 0.002 * title_overlap + 0.001 * content_overlap
             results.append(ScoredClause(clause, bm_score, vec_score, rrf, rerank_score))
         results.sort(key=lambda r: (-r.rerank_score, -r.rrf_score, r.clause.source, r.clause.clause_id))
+        if self.cross_encoder_reranker is not None and results:
+            candidates = results[:candidate_k]
+            scores = self.cross_encoder_reranker.rank(query, [item.clause for item in candidates])
+            reranked = [
+                ScoredClause(item.clause, item.bm25_score, item.vector_score, item.rrf_score, score)
+                for item, score in zip(candidates, scores)
+            ]
+            reranked.sort(key=lambda r: (-r.rerank_score, -r.rrf_score, r.clause.source, r.clause.clause_id))
+            return reranked[:top_k]
         return results[:top_k]
 
     def answer(self, query: str, *, top_k: int = 3, max_clauses: int = 2) -> LegalAnswer:

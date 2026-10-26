@@ -11,12 +11,19 @@ def main() -> int:
     parser.add_argument("--data-dir", default="data/contracts")
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--vector-backend", choices=("tfidf", "sentence-transformers"), default="tfidf")
+    parser.add_argument("--reranker", choices=("lexical", "cross-encoder"), default="lexical")
+    parser.add_argument("--cross-encoder-model", default="cross-encoder/ms-marco-MiniLM-L-6-v2")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     paths = sorted(p for p in Path(args.data_dir).rglob("*") if p.suffix.lower() in {".md", ".markdown", ".txt"})
     if not paths:
         parser.error(f"No supported contract documents found under {args.data_dir}")
-    rag = LegalHybridRAG.from_paths(paths, vector_backend=args.vector_backend)
+    rag = LegalHybridRAG.from_paths(
+        paths,
+        vector_backend=args.vector_backend,
+        reranker_backend=args.reranker,
+        cross_encoder_model=args.cross_encoder_model,
+    )
     answer = rag.answer(args.query, top_k=args.top_k)
     payload = {
         "query": answer.query,
@@ -24,6 +31,7 @@ def main() -> int:
         "citations": answer.citations,
         "abstained": answer.abstained,
         "vector_backend": rag.vector_backend,
+        "reranker_backend": rag.reranker_backend,
         "retrieved": [
             {
                 "source": item.clause.source,
