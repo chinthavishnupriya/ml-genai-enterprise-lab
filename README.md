@@ -7,8 +7,9 @@ A 10-project hands-on lab based on the supplied Real-World ML & GenAI problem-st
 - **Project 01 — Industrial IoT Failure Prediction:** implemented and re-audited. Six automated tests pass. Regression and classification use grouped train/validation/test splits; the failure threshold is selected using validation data only and sensor imputation is learned from training rows only.
 - **Project 02 — Fintech Fraud Detection & Customer Segmentation:** implemented and re-audited. Seven automated tests pass. Decision Tree and Random Forest are compared on held-out test data, and K-Means generates customer segments. Numeric imputation is learned from training rows only.
 - **Project 03 — Supply Chain Demand Forecasting:** implemented and verified in Google Colab. Ten automated tests pass; full end-to-end random search and holdout evaluation completed. Includes a PyTorch MLP, hyperparameter tuning, and a Random Forest baseline. In the recorded Colab run, Random Forest outperformed the MLP.
-- **Project 04 — Customer Support Intent Router:** implemented and verified. Thirteen automated tests pass, the offline CLI smoke test passes, and the curated 18-ticket benchmark has 100% category/priority agreement. This small synthetic benchmark is not a production accuracy estimate. Optional OpenAI-compatible routing is tested with a mock transport; no live API call is needed for the default route.
-- **Projects 05–10:** starter folders exist; implementations and validation are pending.
+- **Project 04 — Customer Support Intent Router:** implemented and verified locally and in Google Colab. Thirteen automated tests pass, and an 18-ticket handcrafted synthetic benchmark is included; its score is not a production accuracy estimate.
+- **Project 05 — Healthcare Clinical Manual Ingestion & RAG:** implemented and locally verified. Fourteen automated tests pass; Markdown/text ingestion, two chunking strategies, a local TF-IDF-style vector index, citation-backed extractive answers, abstention and a three-query retrieval evaluation are included. The bundled corpus is synthetic and the project is not a clinical decision tool.
+- **Projects 06–10:** starter folders exist; implementations and validation are pending.
 
 ## Project index
 
@@ -29,4 +30,4 @@ Read the README inside each project directory for dependencies, setup, execution
 
 ## Data, reproducibility, and safety
 
-Projects 01–03 use synthetic demonstration datasets, and Project 04 uses handcrafted synthetic support-ticket examples for its rule benchmark. Their metrics show that the documented code paths execute; they are not evidence of production-quality predictions. Do not commit private data, credentials, tokens, or local .env files. Real-world use requires representative domain-specific validation, security/privacy review, monitoring, and human oversight.
+Projects 01–03 use synthetic demonstration datasets, Project 04 uses handcrafted synthetic support-ticket examples, and Project 05 uses synthetic educational health-document examples. Their metrics show that the documented code paths execute; they are not evidence of production-quality predictions or clinical performance. Do not commit private data, credentials, tokens, or local .env files. Real-world use requires representative domain-specific validation, security/privacy review, monitoring, and human oversight.

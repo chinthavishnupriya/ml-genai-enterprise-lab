@@ -1,0 +1,55 @@
+{
+  "project": "05-healthcare-rag",
+  "validation_environment": {
+    "platform": "Local Python runtime",
+    "python": "3.13.5",
+    "core_text_retrieval": "Python standard library only",
+    "pdf_dependency": "pypdf 5.x or 6.x; PDF-specific test not run in this validation"
+  },
+  "python_compile": "PASS",
+  "unit_tests": {
+    "status": "PASS",
+    "passed": 14,
+    "failed": 0
+  },
+  "cli_smoke_test": "PASS",
+  "retrieval_evaluation": {
+    "status": "PASS",
+    "cases": 3,
+    "recall_at_3": 1.0,
+    "mrr_at_3": 1.0,
+    "queries": [
+      {
+        "query": "What information should I prepare before an appointment?",
+        "expected_source": "appointment_preparation.md",
+        "rank": 1
+      },
+      {
+        "query": "What should I do before taking an unfamiliar medicine?",
+        "expected_source": "medication_safety.md",
+        "rank": 1
+      },
+      {
+        "query": "What should someone do for severe breathing difficulty?",
+        "expected_source": "urgent_care_guidance.md",
+        "rank": 1
+      }
+    ],
+    "note": "Tiny hand-authored retrieval smoke set for the synthetic corpus; not clinical validation."
+  },
+  "verified_behaviors": [
+    "Markdown section-aware and fixed-size-overlap chunking",
+    "Local sparse TF-IDF-style vectors and cosine ranking",
+    "Source citations in returned extractive evidence",
+    "Abstention for queries with no relevant indexed vocabulary",
+    "Urgent-symptom query retrieves the intended demo safety note",
+    "Command-line query returns structured JSON on request"
+  ],
+  "limitations": [
+    "The included corpus is synthetic educational demo content and is not an authoritative clinical reference.",
+    "The term-weighted vector index is lexical and can miss synonyms or semantic matches.",
+    "Retrieval evaluation uses three hand-authored queries; it is not clinical validation.",
+    "PDF ingestion implementation depends on pypdf and was not exercised in this validation run.",
+    "The tool is not a diagnosis, triage or treatment decision system."
+  ]
+}
