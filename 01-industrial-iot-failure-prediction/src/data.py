@@ -47,7 +47,7 @@ def make_synthetic_telemetry(n_machines: int = 30, rows_per_machine: int = 160,
     return pd.DataFrame(rows)
 
 def clean_telemetry(df: pd.DataFrame) -> pd.DataFrame:
-    """Validate columns, coerce values, drop invalid targets and impute sensors."""
+    """Validate columns and targets; leave sensor NaNs for fit-time pipeline imputation."""
     required = {"timestamp", "machine_id", *FEATURES, TARGET_REG, TARGET_CLS}
     missing = required.difference(df.columns)
     if missing:
@@ -56,11 +56,9 @@ def clean_telemetry(df: pd.DataFrame) -> pd.DataFrame:
     out["timestamp"] = pd.to_datetime(out["timestamp"], errors="coerce", utc=True)
     for col in FEATURES + [TARGET_REG, TARGET_CLS]:
         out[col] = pd.to_numeric(out[col], errors="coerce")
+    out = out.replace([np.inf, -np.inf], np.nan)
     out = out.dropna(subset=["timestamp", "machine_id", TARGET_REG, TARGET_CLS])
     out = out[out[TARGET_CLS].isin([0, 1])]
     out = out[out[TARGET_REG] >= 0]
-    for col in FEATURES:
-        out[col] = out[col].replace([np.inf, -np.inf], np.nan)
-        out[col] = out[col].fillna(out[col].median())
-    out = out.replace([np.inf, -np.inf], np.nan)
+    # Fit-time imputation keeps statistics limited to training rows and avoids leakage.
     return out.reset_index(drop=True)
