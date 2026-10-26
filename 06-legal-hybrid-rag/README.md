@@ -1,6 +1,6 @@
 # Project 06 — Legal Contract Q&A with Hybrid Search
 
-**Status:** Implemented; a reranking refinement is awaiting re-verification in Google Colab. The default path combines BM25 keyword retrieval with a TF-IDF vector index, merges ranks using Reciprocal Rank Fusion (RRF), and applies a lightweight content-aware reranker. Optional sentence-transformer dense embeddings and cross-encoder reranking can be enabled separately. The previous Colab run passed 15 tests; the latest code adds an invoice-ranking regression test, bringing the expected suite to 16. See VALIDATION_REPORT.json.
+**Status:** Verified in Google Colab. Sixteen automated tests pass. The invoice-query regression test confirms Clause 4.1 — Fees and Invoicing ranks first for an invoice due-date query. The six-query synthetic retrieval evaluation reports Recall@5 = 1.0 and MRR@5 = 1.0. See VALIDATION_REPORT.json.
 
 ## Objective
 
