@@ -1,6 +1,6 @@
 # Project 08 — Collaborative Multi-Agent DevSecOps Audit
 
-**Status:** Implemented; Colab verification is pending. The prototype has four independent static scanner agents (secrets, code safety, configuration, and dependency hygiene), a remediation advisor, a QA reviewer, a risk score, and audit report generation.
+**Status:** Verified in Google Colab. All 17 unit tests pass. The sample fixture audit scanned 5 files and reported 7 findings (4 high, 1 medium, 2 low), with heuristic risk score 34/100 (high). JSON, Markdown, and JSONL audit artifacts were generated.
 
 ## Objective
 
@@ -41,6 +41,13 @@ For a fresh runtime:
 ~~~
 
 If the repository is already cloned in this runtime, run !git -C /content/ml-genai-enterprise-lab pull origin main and then change into the Project 8 directory.
+
+## Recorded Colab verification
+
+- Unit tests: 17 passed, 0 failed.
+- Synthetic fixture audit: 5 files scanned; 7 findings (4 high, 1 medium, 2 low).
+- Heuristic risk score: 34/100, classified as high.
+- Each of the four scanner agents completed with PASS status. These values describe the intentionally insecure fixture only, not the security of an arbitrary application.
 
 ## Output artifacts
 

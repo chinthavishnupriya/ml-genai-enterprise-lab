@@ -11,7 +11,7 @@ A 10-project hands-on lab based on the supplied Real-World ML & GenAI problem-st
 - **Project 05 — Healthcare Clinical Manual Ingestion & RAG:** implemented and verified locally and in Google Colab. Fourteen unit tests pass; source-cited extractive retrieval and a synthetic demonstration corpus are included. It is not a clinical decision tool.
 - **Project 06 — Legal Contract Q&A with Hybrid Search:** implemented and verified in Google Colab. Sixteen tests pass and the six-query fictional-contract retrieval evaluation has Recall@5 = 1.0 and MRR@5 = 1.0. These are retrieval smoke-test results, not legal correctness metrics.
 - **Project 07 — Autonomous Financial Analyst Agent:** implemented and verified in Google Colab. Twenty tests pass; the four-case synthetic smoke evaluation has 100% answer coverage, and the risk-note search returns the relevant section. These results verify demo behavior, not financial correctness.
-- **Project 08 — Collaborative Multi-Agent DevSecOps Audit:** implemented; Colab verification is pending. Includes secrets, static-code, configuration, and dependency-hygiene scanners; remediation guidance; QA/deduplication; severity scoring; and audit report outputs. The intentionally insecure fixtures are for tests only and must not be executed.
+- **Project 08 — Collaborative Multi-Agent DevSecOps Audit:** implemented and verified in Google Colab. Seventeen tests pass. The intentionally insecure demo fixture produced 7 findings across 5 scanned files (4 high, 1 medium, 2 low) and a heuristic risk score of 34/100 (high). The scanner is read-only; findings require human review and are not a security certification.
 - **Projects 09–10:** starter folders exist; implementations and validation are pending.
 
 ## Project index
