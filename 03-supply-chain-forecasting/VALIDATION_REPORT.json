@@ -1,0 +1,78 @@
+{
+  "python_compile": "PASS",
+  "unit_tests": {
+    "status": "PASS",
+    "passed": 9,
+    "failed": 0
+  },
+  "end_to_end_training": "PASS",
+  "random_search_trials": [
+    {
+      "trial": 1,
+      "validation_rmse": 27.595,
+      "best_epoch": 15
+    },
+    {
+      "trial": 2,
+      "validation_rmse": 15.764,
+      "best_epoch": 17
+    },
+    {
+      "trial": 3,
+      "validation_rmse": 19.046,
+      "best_epoch": 25
+    },
+    {
+      "trial": 4,
+      "validation_rmse": 32.315,
+      "best_epoch": 24
+    }
+  ],
+  "dataset": {
+    "type": "synthetic retail demand",
+    "rows": 9650,
+    "skus": 50,
+    "start_date": "2024-01-08",
+    "end_date": "2024-07-18"
+  },
+  "chronological_split": {
+    "train_rows": 6750,
+    "validation_rows": 1450,
+    "test_rows": 1450,
+    "train_end": "2024-05-21",
+    "validation_start": "2024-05-22",
+    "validation_end": "2024-06-19",
+    "test_start": "2024-06-20"
+  },
+  "best_hyperparameters": {
+    "hidden_layers": [
+      64,
+      32
+    ],
+    "dropout": 0.1,
+    "learning_rate": 0.003,
+    "weight_decay": 0,
+    "best_trial": 2,
+    "selected_epochs": 17
+  },
+  "test_metrics": {
+    "MLP": {
+      "rmse": 18.590625893995295,
+      "mae": 13.914234232409248,
+      "r2": 0.8037632477187672,
+      "smape_percent": 17.30751053024359
+    },
+    "Random Forest baseline": {
+      "rmse": 14.093535403113238,
+      "mae": 10.647930736920012,
+      "r2": 0.8872199646839506,
+      "smape_percent": 13.337377400152997
+    }
+  },
+  "limitations": [
+    "All training rows are synthetic demonstration data, not real sales history.",
+    "Evaluation is one-step-ahead rolling forecasting: prior observed demand is available for lag features in the holdout window.",
+    "The Random Forest baseline outperformed the MLP on the synthetic holdout test in this run.",
+    "Real forecasting use requires time-aware backtesting and inventory/cost-aware validation."
+  ]
+}
