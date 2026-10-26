@@ -1,6 +1,6 @@
 # Project 04 — Customer Support Intent Router
 
-**Status:** Implemented and locally verified. Thirteen automated tests pass; the offline CLI smoke test passes and all 18 curated synthetic benchmark cases match the expected category and priority. See VALIDATION_REPORT.json.
+**Status:** Implemented and verified locally and in Google Colab. All 13 automated tests pass; the offline CLI smoke test passes; all 18 curated synthetic benchmark cases match the expected category and priority. See VALIDATION_REPORT.json.
 
 ## Objective
 
@@ -56,8 +56,9 @@ The adapter uses OPENAI_MODEL and OPENAI_BASE_URL when configured. The offline r
 ## Verification summary
 
 - Python compilation: PASS
-- Unit tests: 13 passed, 0 failed
-- Offline CLI smoke test: PASS
+- Local unit tests: 13 passed, 0 failed
+- Google Colab unit tests: 13 passed, 0 failed
+- Offline CLI smoke test: PASS locally and in Google Colab (sample output: billing_payment, high priority, escalation required)
 - Mocked optional-provider parsing/retry tests: PASS; no real API call was made
 - Curated benchmark: 18 cases, 100% category and priority match on this handcrafted set only
 
