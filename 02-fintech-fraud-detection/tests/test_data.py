@@ -14,11 +14,11 @@ class TransactionDataTests(unittest.TestCase):
         self.assertEqual(set(df[TARGET].unique()), {0, 1})
         self.assertLess(df[TARGET].mean(), 0.5)
 
-    def test_validation_imputes_missing_values(self):
+    def test_validation_preserves_numeric_missing_values_for_train_only_imputation(self):
         df = make_synthetic_transactions(30, 200, 9)
         df.loc[0, "amount"] = float("nan")
         clean = validate_transactions(df)
-        self.assertFalse(clean[FEATURES].isna().any().any())
+        self.assertTrue(clean["amount"].isna().any())
 
     def test_missing_column_raises(self):
         df = make_synthetic_transactions(30, 200).drop(columns=["device_id"])
