@@ -1,11 +1,12 @@
 # Machine Learning & Generative AI — Enterprise Lab
 
-Repository for 10 hands-on ML and GenAI problem statements. Each project has a numbered directory and its own README.
+Repository for 10 hands-on ML and GenAI problem statements. Each project has its own numbered directory, README, and setup instructions.
 
 ## Status
 
-- Project 01: working baseline for Industrial IoT RUL regression and 24-hour failure classification. Synthetic demo data only; six unit tests and end-to-end training passed in the build environment.
-- Projects 02–10: folder scaffolds; implementations are still to be added and validated.
+- **Project 01 — Industrial IoT Failure Prediction:** implementation committed; synthetic data pipeline, six tests, and end-to-end training were validated.
+- **Project 02 — Fintech Fraud Scoring & Customer Segmentation:** implementation committed; seven tests, classifier training, and K-Means segmentation were validated locally on synthetic data.
+- **Projects 03–10:** starter READMEs are present; implementations and verification are pending.
 
 ## Project index
 
@@ -20,4 +21,10 @@ Repository for 10 hands-on ML and GenAI problem statements. Each project has a n
 9. [Insurance Claims LoRA/QLoRA](09-insurance-qlora/)
 10. [Enterprise Agentic RAG Capstone](10-enterprise-agentic-rag-capstone/)
 
-Use each project's README for setup, dependencies, execution, and validation. Never commit credentials, confidential data, or local `.env` files.
+## Usage
+
+Read the README within each project directory for installation, execution, and validation instructions. Most Python examples target Python 3.10–3.12 and use project-specific requirements files.
+
+## Data and safety
+
+Projects use synthetic or public demonstration data. Synthetic metrics are not estimates of real-world financial, industrial, medical, legal, or operational performance. Do not commit confidential data, access tokens, passwords, or local `.env` files.
