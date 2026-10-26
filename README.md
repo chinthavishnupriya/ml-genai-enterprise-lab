@@ -6,7 +6,7 @@ A 10-project hands-on lab based on the supplied Real-World ML & GenAI problem-st
 
 - **Project 01 — Industrial IoT Failure Prediction:** implemented and re-audited. Six automated tests pass. Regression and classification use grouped train/validation/test splits; the failure threshold is selected using validation data only and sensor imputation is learned from training rows only.
 - **Project 02 — Fintech Fraud Detection & Customer Segmentation:** implemented and re-audited. Seven automated tests pass. Decision Tree and Random Forest are compared on held-out test data, and K-Means generates customer segments. Numeric imputation is learned from training rows only.
-- **Project 03 — Supply Chain Demand Forecasting:** implemented and verified. Nine automated tests pass; full end-to-end random search and holdout evaluation completed. Includes PyTorch MLP with BatchNorm/Dropout, hyperparameter tuning, and a Random Forest baseline. In this synthetic run, Random Forest outperformed the MLP.
+- **Project 03 — Supply Chain Demand Forecasting:** implemented and verified. Ten automated tests pass; full end-to-end random search and holdout evaluation completed. Includes PyTorch MLP with BatchNorm/Dropout, hyperparameter tuning, and a Random Forest baseline. In this synthetic run, Random Forest outperformed the MLP.
 - **Projects 04–10:** starter folders exist; implementations and validation are pending.
 
 ## Project index
