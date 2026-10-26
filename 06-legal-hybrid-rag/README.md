@@ -1,6 +1,6 @@
 # Project 06 — Legal Contract Q&A with Hybrid Search
 
-**Status:** Implemented. The default path combines BM25 keyword retrieval with a TF-IDF vector index, merges ranks using Reciprocal Rank Fusion (RRF), and applies a lightweight query/title overlap reranker. Optional sentence-transformer dense embeddings can be enabled separately. See VALIDATION_REPORT.json for the recorded test and retrieval-evaluation results.
+**Status:** Implemented. The default path combines BM25 keyword retrieval with a TF-IDF vector index, merges ranks using Reciprocal Rank Fusion (RRF), and applies a lightweight query/title overlap reranker. Optional sentence-transformer dense embeddings and cross-encoder reranking can be enabled separately. See VALIDATION_REPORT.json for the recorded test and retrieval-evaluation results.
 
 ## Objective
 
@@ -12,7 +12,7 @@ Retrieve relevant clauses from contract documents and return source-cited text t
 - BM25 keyword retrieval plus cosine similarity over local TF-IDF term vectors.
 - Reciprocal Rank Fusion (RRF) to combine the two rankings.
 - Lightweight final reranking based on query-term overlap with clause titles and text.
-- Optional dense retrieval using a Sentence Transformers model; it is disabled by default to avoid large package/model downloads.
+- Optional dense retrieval using a Sentence Transformers model and optional cross-encoder reranking; both are disabled by default to avoid large package/model downloads.
 - Clause-level citations and abstention when no indexed terms match.
 - Small fictional SaaS agreement, data-processing addendum and service-level agreement.
 - Retrieval evaluation with Recall@K and Mean Reciprocal Rank (MRR@K).
@@ -51,10 +51,10 @@ To use dense sentence embeddings instead of the default TF-IDF vector fallback, 
 
 ~~~python
 !python -m pip install "sentence-transformers>=3,<6"
-!python -m src.cli "When are subscription invoices due for payment?" --vector-backend sentence-transformers --json
+!python -m src.cli "When are subscription invoices due for payment?" --vector-backend sentence-transformers --reranker cross-encoder --json
 ~~~
 
-The first run may download the embedding model. This is optional and can use more disk, memory and compute. The default mode remains offline and dependency-light. The current optional adapter uses dense embeddings but does not load a cross-encoder; default reranking is a transparent lexical feature.
+The first run may download the embedding model. This is optional and can use more disk, memory and compute. The default mode remains offline and dependency-light. The cross-encoder reranker is optional; install the package and select it explicitly if you want to compare it with the default lexical reranker.
 
 ## Data and evaluation
 
