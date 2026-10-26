@@ -1,37 +1,46 @@
 {
   "project": "06-legal-hybrid-rag",
-  "status": "IMPLEMENTED_PENDING_RUNTIME_VERIFICATION",
-  "validation_environment": null,
-  "python_compile": "PENDING",
-  "unit_tests": {
-    "status": "PENDING",
-    "passed": null,
-    "failed": null
+  "status": "IMPLEMENTED_PENDING_RECHECK_AFTER_RERANK_REFINEMENT",
+  "validation_environment": {
+    "platform": "Google Colab",
+    "details": "Python version not captured in the screenshot."
   },
-  "retrieval_evaluation": {
-    "status": "PENDING",
-    "cases": 6,
-    "k": 5,
-    "recall_at_5": null,
-    "mrr_at_5": null,
-    "note": "Six hand-authored queries against fictional contract documents; does not measure legal correctness."
+  "prior_colab_verification": {
+    "status": "PASS",
+    "unit_tests": {
+      "status": "PASS",
+      "passed": 15,
+      "failed": 0
+    },
+    "retrieval_evaluation": {
+      "status": "RUN",
+      "queries": 6,
+      "evidence": "Screenshot shows target clauses ranked first for visible evaluation cases; the initial invoice-query CLI output favored the subscription-term clause over the fees/invoicing clause."
+    },
+    "cli_smoke_test": "PASS",
+    "source": "User-provided Google Colab screenshot"
+  },
+  "latest_ranking_refinement": {
+    "status": "PENDING_COLAB_RERUN",
+    "change": "Reduced clause-title bonus and increased content overlap signal for reranking.",
+    "added_regression_test": "Invoice due-date query must rank Clause 4.1 — Fees and Invoicing first.",
+    "expected_unit_tests": 16
   },
   "implemented_capabilities": [
     "Markdown and text contract ingestion with clause metadata",
     "BM25 keyword retrieval",
     "TF-IDF cosine vector retrieval",
     "Reciprocal Rank Fusion",
-    "Lightweight title and text term-overlap reranking",
+    "Lexical reranking with title and content overlap",
     "Optional Sentence Transformers dense embedding retrieval",
+    "Optional CrossEncoder reranking",
     "Clause-level citations and abstention when no indexed terms match",
-    "CLI, evaluator and synthetic legal test corpus",
-    "Optional CrossEncoder reranking"
+    "CLI and synthetic legal retrieval evaluation"
   ],
   "limitations": [
     "The included agreements are fictional and do not state actual legal requirements.",
-    "Default vector search is TF-IDF and lexical; optional dense embedding mode requires downloading its model.",
-    "Retrieval metrics are based on a small handcrafted query set and do not evaluate legal accuracy.",
-    "The project does not provide legal advice or assess enforceability.",
-    "The cross-encoder path is optional and still requires runtime verification with the selected model."
+    "Default vector search is TF-IDF and lexical; optional embedding and cross-encoder modes require downloading a model.",
+    "Retrieval metrics use a small hand-authored query set and do not evaluate legal correctness.",
+    "The project does not provide legal advice or assess enforceability."
   ]
 }

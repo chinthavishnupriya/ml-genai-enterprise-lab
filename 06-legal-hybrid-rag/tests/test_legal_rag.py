@@ -65,6 +65,11 @@ class RetrievalTests(unittest.TestCase):
         results = self.rag.retrieve("When may either party terminate for a material breach?", top_k=3)
         self.assertEqual(results[0].clause.clause_id, "7.1")
 
+    def test_invoice_due_query_ranks_fees_and_invoicing_first(self):
+        results = self.rag.retrieve("When are subscription invoices due for payment?", top_k=3)
+        self.assertEqual(results[0].clause.clause_id, "4.1")
+        self.assertEqual(results[0].clause.title, "Fees and Invoicing")
+
     def test_answer_contains_clause_citation(self):
         answer = self.rag.answer("When are subscription invoices due for payment?")
         self.assertFalse(answer.abstained)

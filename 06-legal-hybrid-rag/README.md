@@ -1,6 +1,6 @@
 # Project 06 — Legal Contract Q&A with Hybrid Search
 
-**Status:** Implemented. The default path combines BM25 keyword retrieval with a TF-IDF vector index, merges ranks using Reciprocal Rank Fusion (RRF), and applies a lightweight query/title overlap reranker. Optional sentence-transformer dense embeddings and cross-encoder reranking can be enabled separately. See VALIDATION_REPORT.json for the recorded test and retrieval-evaluation results.
+**Status:** Implemented; a reranking refinement is awaiting re-verification in Google Colab. The default path combines BM25 keyword retrieval with a TF-IDF vector index, merges ranks using Reciprocal Rank Fusion (RRF), and applies a lightweight content-aware reranker. Optional sentence-transformer dense embeddings and cross-encoder reranking can be enabled separately. The previous Colab run passed 15 tests; the latest code adds an invoice-ranking regression test, bringing the expected suite to 16. See VALIDATION_REPORT.json.
 
 ## Objective
 
@@ -16,7 +16,7 @@ Retrieve relevant clauses from contract documents and return source-cited text t
 - Clause-level citations and abstention when no indexed terms match.
 - Small fictional SaaS agreement, data-processing addendum and service-level agreement.
 - Retrieval evaluation with Recall@K and Mean Reciprocal Rank (MRR@K).
-- Unit tests for ingestion, BM25, vector retrieval, fusion, citations, abstention and invalid inputs.
+- Unit tests for ingestion, BM25, vector retrieval, rank fusion, citations, abstention, invalid inputs and invoice-query ranking.
 
 ## Quick start
 

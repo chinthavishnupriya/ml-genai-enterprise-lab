@@ -302,7 +302,7 @@ class LegalHybridRAG:
             title_overlap = len(query_terms & set(tokenize(clause.title)))
             content_terms = set(tokenize(clause.text))
             content_overlap = len(query_terms & content_terms) / max(1, len(query_terms))
-            rerank_score = rrf + 0.002 * title_overlap + 0.001 * content_overlap
+            rerank_score = rrf + 0.0002 * title_overlap + 0.005 * content_overlap
             results.append(ScoredClause(clause, bm_score, vec_score, rrf, rerank_score))
         results.sort(key=lambda r: (-r.rerank_score, -r.rrf_score, r.clause.source, r.clause.clause_id))
         if self.cross_encoder_reranker is not None and results:
