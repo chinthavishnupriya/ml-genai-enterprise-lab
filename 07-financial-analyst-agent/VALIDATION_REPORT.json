@@ -1,0 +1,35 @@
+{
+  "project": "07-financial-analyst-agent",
+  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
+  "validation_environment": null,
+  "python_compile": "PENDING",
+  "unit_tests": {
+    "status": "PENDING",
+    "expected_count": 20,
+    "passed": null,
+    "failed": null
+  },
+  "agent_evaluation": {
+    "status": "PENDING",
+    "cases": 4,
+    "answer_coverage": null,
+    "note": "Hand-authored synthetic smoke set. It checks tool routing/citation paths, not financial correctness."
+  },
+  "implemented_capabilities": [
+    "Synthetic quarterly financials for three fictional companies",
+    "Read-only and allowlisted SQLite SQL tool",
+    "Parameter binding, SQL comment/multi-statement rejection, row cap and query execution budget",
+    "Restricted arithmetic calculator without eval",
+    "Local document search with citations",
+    "Deterministic tool planner and action/observation trace",
+    "Operating margin and revenue change calculations",
+    "Abstention for personalized investment recommendation requests",
+    "CLI and evaluation harness"
+  ],
+  "limitations": [
+    "All numeric records and research notes are fictional.",
+    "The planner is deterministic and supports a finite set of question patterns.",
+    "No current market information is retrieved.",
+    "This project is not financial or investment advice."
+  ]
+}

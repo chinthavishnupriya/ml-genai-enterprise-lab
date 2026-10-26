@@ -1,0 +1,2 @@
+# The default tools and agent use only the Python standard library.
+# No API key, network request, external embedding, or GPU is required for this project.
