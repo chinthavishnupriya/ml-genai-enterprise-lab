@@ -2,30 +2,31 @@
   "python_compile": "PASS",
   "unit_tests": {
     "status": "PASS",
-    "passed": 9,
+    "passed": 10,
     "failed": 0
   },
   "end_to_end_training": "PASS",
+  "reproducibility": "MLP parameter initialization and training random state are seeded.",
   "random_search_trials": [
     {
       "trial": 1,
-      "validation_rmse": 27.595,
-      "best_epoch": 15
+      "validation_rmse": 30.135,
+      "best_epoch": 24
     },
     {
       "trial": 2,
-      "validation_rmse": 15.764,
-      "best_epoch": 17
-    },
-    {
-      "trial": 3,
-      "validation_rmse": 19.046,
+      "validation_rmse": 15.131,
       "best_epoch": 25
     },
     {
+      "trial": 3,
+      "validation_rmse": 17.917,
+      "best_epoch": 23
+    },
+    {
       "trial": 4,
-      "validation_rmse": 32.315,
-      "best_epoch": 24
+      "validation_rmse": 27.178,
+      "best_epoch": 20
     }
   ],
   "dataset": {
@@ -53,14 +54,14 @@
     "learning_rate": 0.003,
     "weight_decay": 0,
     "best_trial": 2,
-    "selected_epochs": 17
+    "selected_epochs": 25
   },
   "test_metrics": {
     "MLP": {
-      "rmse": 18.590625893995295,
-      "mae": 13.914234232409248,
-      "r2": 0.8037632477187672,
-      "smape_percent": 17.30751053024359
+      "rmse": 15.591016890552778,
+      "mae": 11.677225961356328,
+      "r2": 0.8619802587844986,
+      "smape_percent": 14.538733004002413
     },
     "Random Forest baseline": {
       "rmse": 14.093535403113238,
@@ -72,7 +73,7 @@
   "limitations": [
     "All training rows are synthetic demonstration data, not real sales history.",
     "Evaluation is one-step-ahead rolling forecasting: prior observed demand is available for lag features in the holdout window.",
-    "The Random Forest baseline outperformed the MLP on the synthetic holdout test in this run.",
+    "The Random Forest baseline outperformed the MLP on test RMSE in this run.",
     "Real forecasting use requires time-aware backtesting and inventory/cost-aware validation."
   ]
 }
