@@ -8,9 +8,9 @@ Build a dual-model baseline that estimates Remaining Useful Life (RUL) in hours 
 
 - Deterministic synthetic sensor telemetry generation (4,800 rows across 30 machines by default).
 - Sensor-data cleaning, polynomial feature engineering and scaling.
-- Machine-grouped holdout split to keep a machine's records in one partition.
-- RUL evaluation with RMSE and MAE.
-- Failure classification with ROC-AUC and a recall-focused decision-threshold sweep.
+- Three-way machine-grouped train/validation/test split; a machine appears in only one partition.
+- RUL regression evaluated on the held-out test machines with RMSE and MAE.
+- Failure-classifier threshold selected from validation predictions and final metrics reported on untouched test machines.
 - Saved model artifacts, JSON/CSV metrics and plots.
 - Six unit tests.
 
@@ -18,14 +18,14 @@ Build a dual-model baseline that estimates Remaining Useful Life (RUL) in hours 
 
 ```bash
 python -m venv .venv
-# Windows: .venv\Scripts\activate
+# Windows: .venv\\Scripts\\activate
 # macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python -m src.train
 ```
 
-The training script writes generated data to `data/`, trained models to `models/`, and metrics/plots to `reports/`.
+The training script writes generated data to `data/`, trained models to `models/`, and metrics/plots to `reports/`. The decision-threshold sweep is saved as `reports/threshold_evaluation_validation.csv`. Missing sensor readings are imputed inside the model pipelines using training-partition statistics only.
 
 ## Safety and limitations
 
