@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+data/processed/
+artifacts/
+*.safetensors
+*.bin
+*.pt
+*.pth

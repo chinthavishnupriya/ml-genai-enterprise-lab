@@ -1,0 +1,49 @@
+{
+  "project": "09-insurance-qlora",
+  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
+  "validation_environment": null,
+  "offline_tests": {
+    "status": "PENDING",
+    "expected_count": 20,
+    "passed": null,
+    "failed": null
+  },
+  "synthetic_dataset": {
+    "status": "IMPLEMENTED_PENDING_VERIFICATION",
+    "total_examples": 64,
+    "train_examples": 48,
+    "validation_examples": 8,
+    "test_examples": 8,
+    "split_method": "scenario-group split",
+    "scenario_groups_shared_across_splits": false
+  },
+  "rules_baseline_evaluation": {
+    "status": "PENDING",
+    "route_accuracy": null,
+    "next_step_accuracy": null,
+    "missing_documents_accuracy": null,
+    "note": "Generated labels share the documented routing rules; these scores validate program logic only, not real claims accuracy."
+  },
+  "lora_qlora_training": {
+    "status": "NOT_RUN",
+    "default_base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "adapter_created": false,
+    "note": "GPU training is optional and has not been run. The implementation uses Transformers Trainer and PEFT; QLoRA uses bitsandbytes NF4 4-bit loading."
+  },
+  "implemented_capabilities": [
+    "Synthetic instruction example generation",
+    "Scenario-grouped train/validation/test split",
+    "Structured output validation and mandatory human review flag",
+    "Rules baseline for routing and missing-document requests",
+    "Offline evaluation harness",
+    "Optional LoRA and QLoRA fine-tuning script",
+    "Optional held-out adapter evaluation",
+    "Data and evaluation tests"
+  ],
+  "limitations": [
+    "No real insurance/claimant data is included.",
+    "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
+    "GPU fine-tuning and adapter evaluation require external model downloads and were not run in this validation report.",
+    "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
+  ]
+}
