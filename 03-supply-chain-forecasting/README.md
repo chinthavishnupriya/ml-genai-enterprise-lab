@@ -1,14 +1,65 @@
-# Project 03 — Supply Chain Demand Forecasting
+# Project 03 — Supply Chain Demand Forecasting with Neural Networks & Automated Tuning
 
-**Status:** Scaffold; implementation and tests not yet added.
+**Status:** Implemented and locally verified. Nine automated tests pass; full random-search training and holdout comparison completed.
 
-## Objective
-Forecast demand using a multilayer perceptron (MLP), tune model parameters, and compare against a Random Forest regression baseline on a holdout set.
+## Problem statement
 
-## Planned components
-- Synthetic daily demand data with promotion, regional and category features.
-- Neural-network training pipeline and reproducible tuning procedure.
-- Holdout metrics and convergence/loss plots.
-- Baseline comparison and tests.
+Forecast daily retail demand per SKU using a feedforward neural network. Tune hidden-layer dimensions, learning rate, dropout and L2 weight decay, then compare the selected MLP with a Random Forest regression baseline.
 
-Forecast quality on synthetic data is demonstrative only. Real use requires time-aware validation.
+## Implemented
+
+- Deterministic synthetic daily demand for 50 SKUs over 200 days, with region, promotions/discounts, price, weather, shipping delays and seasonal features.
+- Historical lag-1, lag-7 and trailing 7-day mean features using prior target values only.
+- Chronological train/validation/test split by date; no date appears in more than one partition.
+- PyTorch dense MLP with BatchNorm and Dropout.
+- Seeded random hyperparameter search with early stopping on validation loss.
+- Final preprocessing and model refit on train + validation data; held-out later dates are used only for final comparison.
+- Random Forest baseline and regression metrics: RMSE, MAE, R² and sMAPE.
+- Hyperparameter table, validation-loss curve, test comparison, prediction chart, and automated tests.
+
+## Quick start
+
+Python 3.10–3.12 recommended. PyTorch CPU is sufficient; no GPU or API key is required.
+
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python -m src.train
+```
+
+The default run performs four random-search trials with a maximum of 25 epochs each; early stopping may finish earlier. The generated data, trained models, metrics and plots are saved in `data/`, `models/`, and `reports/`.
+
+To run a smaller quick experiment:
+
+```bash
+python -c "from src.train import main; main(n_trials=2, max_epochs=5)"
+```
+
+## Main generated outputs
+
+- `reports/metrics.json`
+- `reports/hyperparameter_search.csv` and `reports/hyperparameter_search.png`
+- `reports/validation_loss_curve.png`
+- `reports/test_model_comparison.csv` and `reports/test_model_comparison.png`
+- `reports/test_predictions.csv` and `reports/test_predictions.png`
+- `models/preprocessor.joblib`, `models/random_forest_regressor.joblib`, `models/demand_mlp_state_dict.pt`, and `models/best_config.json`
+
+## Verification summary
+
+- Python compilation: PASS
+- Unit tests: 9 passed, 0 failed
+- Full default training run: PASS (four random-search trials)
+- Generated synthetic rows: 9,650 across 50 SKUs
+- Selected hyperparameters in the verified run: hidden layers `[64, 32]`, dropout `0.10`, learning rate `0.003`, weight decay `0.0`, selected at epoch 17
+- Test-set MLP RMSE: approximately 18.59 demand units
+- Test-set Random Forest RMSE: approximately 14.09 demand units
+
+The Random Forest baseline performed better than the selected MLP in this synthetic run. The comparison is a result, not a reason to alter the metric or hide the baseline.
+
+## Limitations
+
+This is synthetic data and a one-step-ahead rolling forecast where the previous observed demand is available for lag features, including during the later holdout dates. It is not a multi-step forecast and has not been validated on real sales data. Real deployment requires time-aware backtesting, promotion-calendar checks, SKU/region coverage checks, drift monitoring, inventory-cost-aware metrics and stakeholder review.
