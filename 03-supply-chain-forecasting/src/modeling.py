@@ -120,6 +120,7 @@ def _train_epochs(model, x_train, y_train, epochs, learning_rate, weight_decay, 
 
 
 def train_trial(x_train, y_train_log, x_val, y_val_log, config, max_epochs=45, patience=8, seed=42):
+    torch.manual_seed(seed)  # Seed parameter initialization as well as training.
     model = DemandMLP(
         input_dim=np.asarray(x_train).shape[1],
         hidden_layers=tuple(config["hidden_layers"]),
@@ -131,6 +132,7 @@ def train_trial(x_train, y_train_log, x_val, y_val_log, config, max_epochs=45, p
 
 
 def fit_final_model(x, y_log, config, epochs, seed=42):
+    torch.manual_seed(seed)  # Reproducible final-model initialization.
     model = DemandMLP(input_dim=np.asarray(x).shape[1],
                       hidden_layers=tuple(config["hidden_layers"]), dropout=float(config["dropout"]))
     model, history, _ = _train_epochs(model, x, y_log, max(1, int(epochs)),
