@@ -15,9 +15,9 @@
   "provider_adapter_tests": "PASS (mock transport; no real API call made)",
   "benchmark": {
     "cases": 18,
-    "category_accuracy": 1.0,
-    "priority_accuracy": 1.0,
-    "exact_match_accuracy": 1.0,
+    "category_accuracy": 1,
+    "priority_accuracy": 1,
+    "exact_match_accuracy": 1,
     "misclassifications": 0,
     "note": "Curated synthetic rule-coverage benchmark. These values are not estimates of real-world customer-support accuracy."
   },
@@ -37,5 +37,29 @@
     "Confidence values are heuristic and are not calibrated probabilities.",
     "Real-provider integration was not called during validation; adapter tests used a mock transport.",
     "Review privacy, security, escalation policy and human-in-the-loop workflows before production use."
-  ]
+  ],
+  "colab_verification": {
+    "status": "PASS",
+    "evidence": "User-provided Google Colab screenshot",
+    "unit_tests": {
+      "status": "PASS",
+      "passed": 13,
+      "failed": 0
+    },
+    "benchmark": {
+      "cases": 18,
+      "category_accuracy": 1,
+      "priority_accuracy": 1,
+      "exact_match_accuracy": 1,
+      "note": "Curated synthetic rule-coverage benchmark, not an estimate of real-world performance."
+    },
+    "cli_smoke_test": {
+      "status": "PASS",
+      "sample_ticket": "T-1001",
+      "category": "billing_payment",
+      "priority": "high",
+      "escalation_required": true
+    },
+    "environment_versions": "Not captured in the provided screenshot; requirements installation reported already satisfied."
+  }
 }
