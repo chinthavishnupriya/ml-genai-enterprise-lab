@@ -8,11 +8,11 @@ class DataTests(unittest.TestCase):
         b = make_synthetic_telemetry(4, 30, 7)
         pd.testing.assert_frame_equal(a, b)
 
-    def test_cleaning_handles_missing_sensor(self):
+    def test_cleaning_preserves_missing_sensor_for_pipeline_imputation(self):
         df = make_synthetic_telemetry(4, 30, 7)
         df.loc[0, "vibration_hz"] = float("nan")
         cleaned = clean_telemetry(df)
-        self.assertFalse(cleaned[FEATURES].isna().any().any())
+        self.assertTrue(cleaned["vibration_hz"].isna().any())
         self.assertGreater(len(cleaned), 0)
 
     def test_missing_column_raises(self):
