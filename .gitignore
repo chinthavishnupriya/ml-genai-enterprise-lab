@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.coverage
+
+# Local data, model artifacts, and generated reports
+**/data/*.csv
+**/models/*.joblib
+**/models/*.pt
+**/models/*.bin
+**/reports/*.png
+**/reports/*.json
+**/reports/*.csv
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
