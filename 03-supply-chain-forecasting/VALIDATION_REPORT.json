@@ -6,27 +6,34 @@
     "failed": 0
   },
   "end_to_end_training": "PASS",
-  "reproducibility": "MLP parameter initialization and training random state are seeded.",
+  "runtime": {
+    "platform": "Google Colab",
+    "python": "3.13",
+    "torch": "2.11.0+cpu",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3"
+  },
+  "reproducibility": "MLP parameter initialization and training random state are seeded. Metrics below record this Google Colab run; the MLP results differed from the earlier local reference run, while the Random Forest results remained the same. Keep runtime/dependency versions fixed when comparing runs.",
   "random_search_trials": [
     {
       "trial": 1,
-      "validation_rmse": 30.135,
-      "best_epoch": 24
-    },
-    {
-      "trial": 2,
-      "validation_rmse": 15.131,
+      "validation_rmse": 38.896,
       "best_epoch": 25
     },
     {
+      "trial": 2,
+      "validation_rmse": 16.887,
+      "best_epoch": 22
+    },
+    {
       "trial": 3,
-      "validation_rmse": 17.917,
-      "best_epoch": 23
+      "validation_rmse": 26.156,
+      "best_epoch": 24
     },
     {
       "trial": 4,
-      "validation_rmse": 27.178,
-      "best_epoch": 20
+      "validation_rmse": 32.863,
+      "best_epoch": 23
     }
   ],
   "dataset": {
@@ -54,14 +61,14 @@
     "learning_rate": 0.003,
     "weight_decay": 0,
     "best_trial": 2,
-    "selected_epochs": 25
+    "selected_epochs": 22
   },
   "test_metrics": {
     "MLP": {
-      "rmse": 15.591016890552778,
-      "mae": 11.677225961356328,
-      "r2": 0.8619802587844986,
-      "smape_percent": 14.538733004002413
+      "rmse": 25.653594659229444,
+      "mae": 19.76347642712408,
+      "r2": 0.6263328091319788,
+      "smape_percent": 26.071264792045273
     },
     "Random Forest baseline": {
       "rmse": 14.093535403113238,
@@ -70,10 +77,25 @@
       "smape_percent": 13.337377400152997
     }
   },
+  "artifacts": [
+    "reports/hyperparameter_search.csv",
+    "reports/hyperparameter_search.png",
+    "reports/metrics.json",
+    "reports/test_model_comparison.csv",
+    "reports/test_model_comparison.png",
+    "reports/test_predictions.csv",
+    "reports/test_predictions.png",
+    "reports/validation_loss_curve.png",
+    "models/best_config.json",
+    "models/demand_mlp_state_dict.pt",
+    "models/preprocessor.joblib",
+    "models/random_forest_regressor.joblib"
+  ],
   "limitations": [
     "All training rows are synthetic demonstration data, not real sales history.",
     "Evaluation is one-step-ahead rolling forecasting: prior observed demand is available for lag features in the holdout window.",
-    "The Random Forest baseline outperformed the MLP on test RMSE in this run.",
+    "The Random Forest baseline outperformed the MLP on test RMSE in this Colab run.",
+    "The MLP metrics differ from the previously documented local run; treat these values as results from the stated Colab environment rather than a directly portable benchmark.",
     "Real forecasting use requires time-aware backtesting and inventory/cost-aware validation."
   ]
 }
