@@ -1,0 +1,35 @@
+{
+  "project": "06-legal-hybrid-rag",
+  "status": "IMPLEMENTED_PENDING_RUNTIME_VERIFICATION",
+  "validation_environment": null,
+  "python_compile": "PENDING",
+  "unit_tests": {
+    "status": "PENDING",
+    "passed": null,
+    "failed": null
+  },
+  "retrieval_evaluation": {
+    "status": "PENDING",
+    "cases": 6,
+    "k": 5,
+    "recall_at_5": null,
+    "mrr_at_5": null,
+    "note": "Six hand-authored queries against fictional contract documents; does not measure legal correctness."
+  },
+  "implemented_capabilities": [
+    "Markdown and text contract ingestion with clause metadata",
+    "BM25 keyword retrieval",
+    "TF-IDF cosine vector retrieval",
+    "Reciprocal Rank Fusion",
+    "Lightweight title and text term-overlap reranking",
+    "Optional Sentence Transformers dense embedding retrieval",
+    "Clause-level citations and abstention when no indexed terms match",
+    "CLI, evaluator and synthetic legal test corpus"
+  ],
+  "limitations": [
+    "The included agreements are fictional and do not state actual legal requirements.",
+    "Default vector search is TF-IDF and lexical; optional dense embedding mode requires downloading its model.",
+    "Retrieval metrics are based on a small handcrafted query set and do not evaluate legal accuracy.",
+    "The project does not provide legal advice or assess enforceability."
+  ]
+}
