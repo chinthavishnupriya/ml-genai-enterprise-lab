@@ -1,0 +1,41 @@
+{
+  "project": "04-customer-support-intent-router",
+  "validation_environment": {
+    "platform": "Local Python runtime",
+    "python": "3.13.5",
+    "pydantic": "2.13.5"
+  },
+  "python_compile": "PASS",
+  "unit_tests": {
+    "status": "PASS",
+    "passed": 13,
+    "failed": 0
+  },
+  "offline_cli_smoke_test": "PASS",
+  "provider_adapter_tests": "PASS (mock transport; no real API call made)",
+  "benchmark": {
+    "cases": 18,
+    "category_accuracy": 1.0,
+    "priority_accuracy": 1.0,
+    "exact_match_accuracy": 1.0,
+    "misclassifications": 0,
+    "note": "Curated synthetic rule-coverage benchmark. These values are not estimates of real-world customer-support accuracy."
+  },
+  "implemented_capabilities": [
+    "Nine intent categories and four priority levels",
+    "Offline deterministic rule-based router",
+    "Pydantic-validated ticket input and JSON result schema",
+    "Escalation flag for high and urgent cases",
+    "Optional OpenAI-compatible provider adapter",
+    "JSON response parsing and schema validation",
+    "Exponential retry/backoff for provider failures and malformed output",
+    "CLI and curated benchmark harness",
+    "Safety-oriented draft responses and ticket text treated as untrusted input"
+  ],
+  "limitations": [
+    "Rules and benchmark examples are handcrafted; production intent performance has not been measured.",
+    "Confidence values are heuristic and are not calibrated probabilities.",
+    "Real-provider integration was not called during validation; adapter tests used a mock transport.",
+    "Review privacy, security, escalation policy and human-in-the-loop workflows before production use."
+  ]
+}
