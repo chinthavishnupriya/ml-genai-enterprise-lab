@@ -1,0 +1,48 @@
+{
+  "python_compile": "PASS",
+  "unit_tests": {
+    "status": "PASS",
+    "passed": 6,
+    "failed": 0
+  },
+  "end_to_end_training": "PASS",
+  "run": {
+    "dataset": "synthetic demonstration telemetry",
+    "rows": 4800,
+    "machines": 30,
+    "split": {
+      "train_rows": 2880,
+      "validation_rows": 960,
+      "test_rows": 960,
+      "train_machines": 18,
+      "validation_machines": 6,
+      "test_machines": 6
+    },
+    "regression_test_metrics": {
+      "rmse_hours": 24.006982711553942,
+      "mae_hours": 19.12689179303349
+    },
+    "classification_test_metrics": {
+      "threshold": 0.05,
+      "precision": 0.3958103638368247,
+      "recall": 0.9972222222222222,
+      "f1": 0.5666929755327546,
+      "confusion_matrix_tn_fp_fn_tp": [
+        52,
+        548,
+        1,
+        359
+      ],
+      "roc_auc": 0.8403287037037037
+    }
+  },
+  "audit_fixes": [
+    "Decision threshold is selected on a validation split; test labels are not used for threshold selection.",
+    "Sensor-value imputation is performed inside the model pipelines using training-row statistics only.",
+    "Grouped train/validation/test splits keep every machine in exactly one partition."
+  ],
+  "limitations": [
+    "Synthetic data only; this does not establish industrial reliability.",
+    "Not suitable for machine-safety decisions without real-data validation and safety engineering."
+  ]
+}
