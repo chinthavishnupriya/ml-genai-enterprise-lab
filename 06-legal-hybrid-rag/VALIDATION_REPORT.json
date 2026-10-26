@@ -24,12 +24,14 @@
     "Lightweight title and text term-overlap reranking",
     "Optional Sentence Transformers dense embedding retrieval",
     "Clause-level citations and abstention when no indexed terms match",
-    "CLI, evaluator and synthetic legal test corpus"
+    "CLI, evaluator and synthetic legal test corpus",
+    "Optional CrossEncoder reranking"
   ],
   "limitations": [
     "The included agreements are fictional and do not state actual legal requirements.",
     "Default vector search is TF-IDF and lexical; optional dense embedding mode requires downloading its model.",
     "Retrieval metrics are based on a small handcrafted query set and do not evaluate legal accuracy.",
-    "The project does not provide legal advice or assess enforceability."
+    "The project does not provide legal advice or assess enforceability.",
+    "The cross-encoder path is optional and still requires runtime verification with the selected model."
   ]
 }
