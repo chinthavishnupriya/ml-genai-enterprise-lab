@@ -1,6 +1,6 @@
 # Project 05 — Healthcare Clinical Manual Ingestion & RAG
 
-**Status:** Implemented and locally validated. Fourteen unit tests pass, Python compilation passes, and the three-query retrieval smoke evaluation returned Recall@3 = 1.0 and MRR@3 = 1.0. See VALIDATION_REPORT.json.
+**Status:** Implemented and verified locally and in Google Colab. Fourteen unit tests pass in both validation runs, Python compilation passes, and the three-query retrieval smoke evaluation returned Recall@3 = 1.0 and MRR@3 = 1.0. See VALIDATION_REPORT.json.
 
 ## Objective
 
@@ -15,6 +15,7 @@ Ingest approved, non-identifying healthcare education material and retrieve rele
 - Extractive, evidence-only draft responses; abstains when no passage meets the relevance threshold.
 - Small synthetic, non-identifying demonstration corpus and a retrieval evaluation harness.
 - Unit tests for source loading, chunking, ranking, citations, invalid inputs and abstention.
+- Google Colab verification: 14 tests passed, the retrieval evaluation completed, and a sample query returned a citation.
 
 ## Quick start
 
