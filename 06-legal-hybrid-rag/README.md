@@ -8,7 +8,7 @@ Retrieve relevant clauses from contract documents and return source-cited text t
 
 ## Features
 
-- Ingest Markdown and plain-text agreements with clause numbers and heading metadata.
+- Ingest Markdown and plain-text agreements with clause numbers and heading metadata. PDF ingestion is not implemented.
 - BM25 keyword retrieval plus cosine similarity over local TF-IDF term vectors.
 - Reciprocal Rank Fusion (RRF) to combine the two rankings.
 - Lightweight final reranking based on query-term overlap with clause titles and text.

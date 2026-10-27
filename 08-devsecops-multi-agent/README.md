@@ -1,6 +1,6 @@
 # Project 08 — Collaborative Multi-Agent DevSecOps Audit
 
-**Status:** Verified in Google Colab. All 17 unit tests pass. The sample fixture audit scanned 5 files and reported 7 findings (4 high, 1 medium, 2 low), with heuristic risk score 34/100 (high). JSON, Markdown, and JSONL audit artifacts were generated.
+**Status:** The original Colab run passed 17 tests. Two regression tests have now been added for direct-URL dependency detection, and the scanner bug has been fixed. The revised 19-test suite is pending automated CI verification.
 
 ## Objective
 
@@ -64,6 +64,6 @@ The default output directory is audit-reports/. This directory is excluded from 
 - The tool performs static text checks only. It does not execute scanned code, run package installers, modify source, open network connections, or auto-apply patches.
 - Findings are pattern matches, not proof of exploitability. False positives and false negatives are expected.
 - Severity and risk score are heuristic triage aids, not compliance scores or certifications.
-- Dependency checks inspect version-specification hygiene only. No live advisory database or CVE feed is queried.
+- Dependency checks inspect version-specification hygiene only. Direct URL dependencies are checked for a same-line pip hash; hash presence does not establish package safety. No live advisory database or CVE feed is queried.
 - The included vulnerable fixture is intentionally insecure for scanner testing; findings on that fixture are expected.
 - Have a security engineer review findings, validate context, and test remediations in an isolated environment before merging changes into real systems.

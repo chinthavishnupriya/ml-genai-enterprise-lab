@@ -7,9 +7,17 @@
   },
   "python_compile": "PASS",
   "unit_tests": {
-    "status": "PASS",
-    "passed": 13,
-    "failed": 0
+    "status": "PENDING_AFTER_AUDIT_PATCH",
+    "previous_run": {
+      "status": "PASS",
+      "passed": 13,
+      "failed": 0,
+      "evidence": "Previously recorded Colab run."
+    },
+    "expected_after_patch": 15,
+    "passed": null,
+    "failed": null,
+    "note": "Two new mocked-provider tests verify that model output cannot downgrade a security incident or a rule-based high-priority ticket."
   },
   "offline_cli_smoke_test": "PASS",
   "provider_adapter_tests": "PASS (mock transport; no real API call made)",
@@ -30,7 +38,8 @@
     "JSON response parsing and schema validation",
     "Exponential retry/backoff for provider failures and malformed output",
     "CLI and curated benchmark harness",
-    "Safety-oriented draft responses and ticket text treated as untrusted input"
+    "Safety-oriented draft responses and ticket text treated as untrusted input",
+    "Deterministic priority floor and security-category override applied after optional provider output is parsed"
   ],
   "limitations": [
     "Rules and benchmark examples are handcrafted; production intent performance has not been measured.",
@@ -61,5 +70,10 @@
       "escalation_required": true
     },
     "environment_versions": "Not captured in the provided screenshot; requirements installation reported already satisfied."
-  }
+  },
+  "status": "PROVIDER_RISK_POLICY_HARDENING_COMMITTED_CI_VERIFICATION_PENDING",
+  "audit_fixes": [
+    "Optional provider result is post-processed so detected security incidents are always SECURITY_PRIVACY/URGENT with escalation and a fixed safety draft.",
+    "High or urgent deterministic priority cannot be downgraded by lower model priority."
+  ]
 }

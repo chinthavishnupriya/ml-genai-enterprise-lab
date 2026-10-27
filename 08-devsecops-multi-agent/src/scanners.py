@@ -162,7 +162,19 @@ class DependencyScanner:
         if path.name == "requirements.txt":
             for number, line in enumerate(content.splitlines(), start=1):
                 line = line.strip()
-                if not line or line.startswith(("#", "-", "git+", "http://", "https://")):
+                if not line or line.startswith(("#", "-")):
+                    continue
+                # Handle direct references before generic requirements parsing; otherwise
+                # URL-starting lines were skipped and DEP002 was unreachable.
+                if re.search(r"(?:https?|git)\+?://", line):
+                    if "--hash=" not in line:
+                        findings.append(_finding(
+                            "DEP002", "Direct URL dependency without hash", "medium", "dependencies", path, root, number,
+                            "Direct URL dependency is not accompanied by a pip hash on this line.",
+                            "Direct dependency source is not pinned by hash.",
+                            "Prefer a trusted package index and pinned version; verify origin and integrity. Avoid installing from untrusted URLs.",
+                            self.name
+                        ))
                     continue
                 package = re.split(r"[<>=!~;\[]", line, maxsplit=1)[0].strip()
                 if package and not re.search(r"(?:===|==|~=|<=|>=|<|>)", line):
@@ -171,14 +183,6 @@ class DependencyScanner:
                         f"Dependency '{package}' has no version constraint; installs may not be reproducible.",
                         f"Package name: {package}; no version constraint detected.",
                         "Set and periodically update a tested version range or lock dependency versions with a reproducible lockfile.",
-                        self.name
-                    ))
-                if re.search(r"(?:https?|git)\+?://", line) and "--hash=" not in line:
-                    findings.append(_finding(
-                        "DEP002", "Direct URL dependency without hash", "medium", "dependencies", path, root, number,
-                        "Direct URL dependency is not accompanied by a pip hash on this line.",
-                        "Direct dependency source is not pinned by hash.",
-                        "Prefer a trusted package index and pinned version; verify origin and integrity. Avoid installing from untrusted URLs.",
                         self.name
                     ))
         elif path.name == "package.json":

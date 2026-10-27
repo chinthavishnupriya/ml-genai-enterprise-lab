@@ -71,6 +71,20 @@ class ScannerTests(unittest.TestCase):
         findings = DependencyScanner().scan(req, "requests==2.32.4\n", self.root)
         self.assertFalse(any(f.rule_id == "DEP001" for f in findings))
 
+    def test_direct_url_dependency_without_hash_is_flagged(self):
+        req = self.root / "requirements.txt"
+        findings = DependencyScanner().scan(
+            req, "demo-lib @ https://example.invalid/demo-lib.whl\n", self.root
+        )
+        self.assertTrue(any(f.rule_id == "DEP002" for f in findings))
+        self.assertFalse(any(f.rule_id == "DEP001" for f in findings))
+
+    def test_direct_url_dependency_with_hash_is_not_flagged_for_missing_hash(self):
+        req = self.root / "requirements.txt"
+        line = "demo-lib @ https://example.invalid/demo-lib.whl --hash=sha256:" + ("a" * 64)
+        findings = DependencyScanner().scan(req, line + "\n", self.root)
+        self.assertFalse(any(f.rule_id == "DEP002" for f in findings))
+
     def test_floating_package_json_dependency_is_flagged(self):
         package = self.root / "package.json"
         findings = DependencyScanner().scan(package, json.dumps({"dependencies": {"demo-lib": "latest"}}), self.root)

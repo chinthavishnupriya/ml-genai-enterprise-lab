@@ -1,6 +1,6 @@
 # Project 04 — Customer Support Intent Router
 
-**Status:** Implemented and verified locally and in Google Colab. All 13 automated tests pass; the offline CLI smoke test passes; all 18 curated synthetic benchmark cases match the expected category and priority. See VALIDATION_REPORT.json.
+**Status:** The original 13-test suite and offline benchmark passed in Colab. The optional LLM provider now applies deterministic priority floors after parsing model output, including a mandatory security/urgent override. Two regression tests were added; the revised 15-test suite is pending CI verification.
 
 ## Objective
 
@@ -12,7 +12,7 @@ Classify support tickets into an intent category and priority, return a safe dra
 - Four priority levels: low, medium, high and urgent, with escalation for high-risk cases.
 - Offline-first deterministic rule router; no API key, network, training data or GPU needed for the default path.
 - Pydantic request and response schemas reject malformed fields and unexpected keys.
-- Optional OpenAI-compatible chat-completions adapter, response parsing/validation and exponential retry/backoff. It only activates when explicitly requested and an API key is present.
+- Optional OpenAI-compatible chat-completions adapter, response parsing/validation, deterministic high-risk priority enforcement and exponential retry/backoff. It only activates when explicitly requested and an API key is present.
 - Curated 18-ticket benchmark covering category and priority behavior.
 - Unit tests for categories, security precedence, schema validation, provider parsing, retry behavior and missing credentials.
 
@@ -68,6 +68,6 @@ The benchmark is a rule-coverage check, not an estimate of production performanc
 
 - The offline classifier is rule-based. Its confidence is a heuristic signal, not a calibrated probability; benchmark scores only reflect this curated synthetic set, not real production accuracy.
 - Drafts are suggestions for a human support agent. They do not claim a refund, cancellation or other external action has been completed.
-- Ticket text is untrusted input. The optional LLM prompt instructs the model to treat it as data, and the result is validated against a strict schema, but prompt injection risk is not eliminated.
+- Ticket text is untrusted input. The optional LLM prompt instructs the model to treat it as data, and the result is schema-validated. Deterministic rules prevent the provider from downgrading security incidents or high/urgent priorities; prompt-injection risk is not eliminated.
 - Minimize or redact personal data; never send passwords, one-time passcodes, full card numbers, secrets or confidential support data to a model.
 - Before production use, evaluate on a representative, privacy-reviewed labeled set, calibrate priorities, monitor drift and require human review for sensitive or high-impact cases.

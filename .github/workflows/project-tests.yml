@@ -1,0 +1,85 @@
+name: Project tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Tests — ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - 01-industrial-iot-failure-prediction
+          - 02-fintech-fraud-detection
+          - 03-supply-chain-forecasting
+          - 04-customer-support-intent-router
+          - 05-healthcare-rag
+          - 06-legal-hybrid-rag
+          - 07-financial-analyst-agent
+          - 08-devsecops-multi-agent
+          - 09-insurance-qlora
+          - 10-enterprise-agentic-rag-capstone
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ${{ matrix.project }}/requirements.txt
+      - name: Install project requirements
+        working-directory: ${{ matrix.project }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --timeout 120 --retries 5 -r requirements.txt
+      - name: Run project unit tests
+        working-directory: ${{ matrix.project }}
+        run: python -m unittest discover -s tests -v
+
+  repository-metadata:
+    name: Validate repository metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Validate project folders and JSON reports
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          projects = [
+              "01-industrial-iot-failure-prediction",
+              "02-fintech-fraud-detection",
+              "03-supply-chain-forecasting",
+              "04-customer-support-intent-router",
+              "05-healthcare-rag",
+              "06-legal-hybrid-rag",
+              "07-financial-analyst-agent",
+              "08-devsecops-multi-agent",
+              "09-insurance-qlora",
+              "10-enterprise-agentic-rag-capstone",
+          ]
+          for project in projects:
+              root = Path(project)
+              assert (root / "README.md").is_file(), f"{project}: missing README.md"
+              report = root / "VALIDATION_REPORT.json"
+              assert report.is_file(), f"{project}: missing VALIDATION_REPORT.json"
+              json.loads(report.read_text(encoding="utf-8"))
+          assert Path("README.md").is_file(), "Missing root README.md"
+          assert Path("REPOSITORY_AUDIT.md").is_file(), "Missing REPOSITORY_AUDIT.md"
+          print(f"Validated {len(projects)} project README files and JSON validation reports.")
+          PY

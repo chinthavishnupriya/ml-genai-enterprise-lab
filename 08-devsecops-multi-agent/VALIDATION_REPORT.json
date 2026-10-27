@@ -1,6 +1,6 @@
 {
   "project": "08-devsecops-multi-agent",
-  "status": "VERIFIED_IN_GOOGLE_COLAB",
+  "status": "DEPENDENCY_SCANNER_FIX_COMMITTED_CI_VERIFICATION_PENDING",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "Not captured in screenshot",
@@ -8,11 +8,17 @@
   },
   "python_compile": "PASS (all tests imported and executed)",
   "unit_tests": {
-    "status": "PASS",
-    "expected": 17,
-    "passed": 17,
-    "failed": 0,
-    "evidence": "User-provided Google Colab screenshot shows Ran 17 tests and OK."
+    "status": "PENDING_AFTER_AUDIT_PATCH",
+    "previous_run": {
+      "status": "PASS",
+      "passed": 17,
+      "failed": 0,
+      "evidence": "Previously recorded Colab run."
+    },
+    "expected_after_patch": 19,
+    "passed": null,
+    "failed": null,
+    "note": "Two tests were added for direct-URL dependencies with and without hashes; CI verification is pending."
   },
   "fixture_smoke_test": {
     "status": "PASS",
@@ -78,5 +84,9 @@
     "Dependency checks do not use a vulnerability advisory database and do not report CVEs.",
     "Risk score is a triage heuristic and is not a compliance or security certification.",
     "The included vulnerable fixture is intentionally insecure; the findings are expected and evidence values are redacted."
+  ],
+  "audit_fixes": [
+    "Direct URL dependency detection now runs before generic requirements parsing; URL-starting lines are no longer skipped before DEP002 can be evaluated.",
+    "Added regression tests for direct URL dependencies with and without pip hashes."
   ]
 }
