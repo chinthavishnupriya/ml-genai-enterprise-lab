@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Offline workflow verified in Google Colab: all 20 tests passed, split generation produced 48/8/8 examples, the 8-example rules-baseline evaluation matched all three expected fields, and the sample CLI requested the missing repair estimate while requiring human review. Optional LoRA/QLoRA fine-tuning remains unverified because the current Colab runtime has no CUDA GPU enabled.
+**Status:** Offline workflow and QLoRA training verified in Google Colab. All 20 tests pass; the 48/8/8 scenario-grouped split and rules baseline passed. QLoRA-NF4 training completed for two epochs on an NVIDIA Tesla T4, and the adapter was saved to `artifacts/claim-triage-qlora`. Held-out adapter evaluation is the remaining step.
 
 ## Objective
 
@@ -35,7 +35,7 @@ The default workflow uses only the Python standard library. In the verified Cola
 
 ## Step 2 — Optional LoRA/QLoRA training
 
-Actual fine-tuning has not been run: the current Colab attempt reported that a CUDA GPU is required. It requires a compatible CUDA GPU, model download access, adequate storage, and compatible PyTorch/Transformers/PEFT/bitsandbytes versions. In Colab, select Runtime → Change runtime type → GPU before attempting training. Do not start this step for simple project verification.
+Fine-tuning was run successfully in Google Colab on an NVIDIA Tesla T4 using QLoRA-NF4 for 2 epochs with seed 42. The recorded run had train loss about 0.7599, validation loss about 0.2784, and the adapter was saved to `artifacts/claim-triage-qlora`. These are training diagnostics on a tiny synthetic dataset; they do not validate real claims handling.
 
 Install the larger, optional environment separately:
 
@@ -59,10 +59,10 @@ The default base model is Qwen/Qwen2.5-0.5B-Instruct. Training downloads the mod
 
 ## Step 3 — Optional adapter evaluation
 
-Run this only after training an adapter successfully:
+The adapter was trained in the recorded Colab session. Run this next to measure structured output and routing behavior on the synthetic held-out scenario:
 
 ~~~python
-!python -m src.evaluate_adapter --adapter-dir artifacts/claim-triage-lora
+!python -m src.evaluate_adapter --adapter-dir artifacts/claim-triage-qlora
 ~~~
 
 For a QLoRA run, use --adapter-dir artifacts/claim-triage-qlora. The evaluator reports valid schema rate, route accuracy, and next-step accuracy on the held-out synthetic scenario. The rules-baseline score is not a model benchmark and must not be compared with a fine-tuned model as if the datasets or methods were independent.

@@ -1,10 +1,12 @@
 {
   "project": "09-insurance-qlora",
-  "status": "OFFLINE_WORKFLOW_VERIFIED_IN_GOOGLE_COLAB",
+  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_IN_GOOGLE_COLAB",
   "validation_environment": {
     "platform": "Google Colab",
-    "python_version": "Not captured in screenshot",
-    "offline_dependencies": "Python standard library only"
+    "python_version": "3.13 (visible from package paths; exact runtime version not independently verified)",
+    "gpu": "NVIDIA Tesla T4",
+    "offline_dependencies": "Python standard library only",
+    "training_stack": "Transformers, PEFT, bitsandbytes"
   },
   "offline_tests": {
     "status": "PASS",
@@ -51,13 +53,33 @@
     "note": "Synthetic sample only."
   },
   "lora_qlora_training": {
-    "status": "NOT_RUN",
+    "status": "PASS",
     "default_base_model": "Qwen/Qwen2.5-0.5B-Instruct",
-    "adapter_created": false,
-    "attempted": true,
-    "blocker": "Current Colab runtime reported that a CUDA GPU is required. The offline workflow passed, but GPU adapter training was not executed.",
-    "next_step": "Enable a compatible GPU runtime, then rerun training if GPU training is required.",
-    "note": "The optional training script uses Transformers Trainer and PEFT; QLoRA uses bitsandbytes NF4 4-bit loading."
+    "method": "QLoRA-NF4",
+    "adapter_created": true,
+    "adapter_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora",
+    "epochs_completed": 2,
+    "seed": 42,
+    "dataset_counts": {
+      "train": 48,
+      "validation": 8,
+      "test": 8
+    },
+    "train_metrics": {
+      "train_runtime_seconds": 42.005,
+      "train_samples_per_second": 2.285,
+      "train_steps_per_second": 0.286,
+      "train_loss_rounded": 0.7599
+    },
+    "validation_metrics": {
+      "eval_loss_rounded": 0.2784,
+      "eval_runtime_seconds": 1.0498,
+      "eval_samples_per_second": 7.62,
+      "eval_steps_per_second": 3.81
+    },
+    "evidence": "User-provided Google Colab screenshot shows training completed for two epochs and the adapter saved to artifacts/claim-triage-qlora.",
+    "adapter_evaluation": "PENDING",
+    "note": "Synthetic smoke fine-tuning only. Validation loss does not establish claims accuracy or suitability for real claim workflows."
   },
   "implemented_capabilities": [
     "Synthetic instruction example generation",
@@ -72,7 +94,8 @@
   "limitations": [
     "No real insurance/claimant data is included.",
     "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "GPU fine-tuning and adapter evaluation have not been run; the current Colab runtime had no CUDA GPU enabled.",
+    "QLoRA training completed on a Google Colab Tesla T4; adapter generation quality has not yet been evaluated on the held-out scenario.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
-  ]
+  ],
+  "next_step": "Run src.evaluate_adapter with --adapter-dir artifacts/claim-triage-qlora and record held-out schema/route/action scores."
 }
