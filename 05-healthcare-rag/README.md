@@ -1,4 +1,8 @@
 # Project 05 — Healthcare Clinical Manual Ingestion & RAG
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, local TF-IDF-style lexical retrieval, standard-library text processing, optional pypdf for PDFs, and unittest.
+
 
 **Status:** Implemented and verified locally and in Google Colab. Fourteen unit tests pass in both validation runs, Python compilation passes, and the three-query retrieval smoke evaluation returned Recall@3 = 1.0 and MRR@3 = 1.0. See VALIDATION_REPORT.json.
 

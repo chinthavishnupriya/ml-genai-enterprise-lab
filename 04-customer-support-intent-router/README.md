@@ -1,4 +1,8 @@
 # Project 04 — Customer Support Intent Router
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, Pydantic v2, regex-based routing, standard-library urllib for the optional OpenAI-compatible API, and unittest.
+
 
 **Status:** Verified in Google Colab and GitHub Actions. The original 13 tests passed in Colab; after provider risk-policy hardening, the revised 15-test suite passed in CI. The 18-case handcrafted synthetic benchmark remains a rule-coverage check, not production accuracy.
 

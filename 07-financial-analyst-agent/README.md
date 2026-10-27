@@ -1,4 +1,8 @@
 # Project 07 — Autonomous Financial Analyst Agent
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python standard library, SQLite read-only access, AST-restricted arithmetic calculator, local Markdown search and unittest.
+
 
 **Status:** Verified in Google Colab. All 20 automated tests pass, the four-case agent evaluation reports 100% answer coverage on its synthetic smoke set, the operating-margin example calculates 15.00%, and research-note search returns the relevant Liquidity and leverage section. See VALIDATION_REPORT.json.
 

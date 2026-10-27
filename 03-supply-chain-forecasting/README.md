@@ -1,4 +1,8 @@
 # Project 03 — Supply Chain Demand Forecasting with Neural Networks & Automated Tuning
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, PyTorch, NumPy, Pandas, scikit-learn, Matplotlib, joblib and unittest.
+
 
 **Status:** Implemented and verified in Google Colab. Ten automated tests pass; full random-search training and holdout comparison completed.
 

@@ -1,4 +1,8 @@
 # Project 08 — Collaborative Multi-Agent DevSecOps Audit
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python standard library, regex-based static scanners, JSON/Markdown/JSONL reporting and unittest.
+
 
 **Status:** Verified in Google Colab and GitHub Actions. The original 17 tests passed in Colab; after fixing direct-URL dependency detection and adding two regression tests, the revised 19-test suite passed in CI.
 

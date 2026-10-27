@@ -1,4 +1,8 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python standard-library guarded workflow; optional PyTorch, Hugging Face Transformers, PEFT, Accelerate and bitsandbytes for LoRA/QLoRA.
+
 
 **Status:** Guarded hybrid pipeline verified in Google Colab. All 30 tests pass, and deterministic guard evaluation returned 100% for seven checked fields across eight synthetic examples, even when the supplied model fields were incorrect. The raw adapter remains unreliable at filling structured fields; deterministic code supplies those values and the model may contribute only a screened, clearly labeled narrative draft for human verification. This is not real claims performance; do not use it for real claims.
 

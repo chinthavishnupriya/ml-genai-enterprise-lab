@@ -1,4 +1,8 @@
 # Project 06 — Legal Contract Q&A with Hybrid Search
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, BM25-style keyword search, TF-IDF cosine ranking, Reciprocal Rank Fusion, optional Sentence Transformers/cross-encoder and unittest.
+
 
 **Status:** Verified in Google Colab. Sixteen automated tests pass. The invoice-query regression test confirms Clause 4.1 — Fees and Invoicing ranks first for an invoice due-date query. The six-query synthetic retrieval evaluation reports Recall@5 = 1.0 and MRR@5 = 1.0. See VALIDATION_REPORT.json.
 

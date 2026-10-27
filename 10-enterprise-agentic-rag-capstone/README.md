@@ -1,4 +1,8 @@
 # Project 10 — Enterprise Agentic RAG Capstone
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python standard library, JSONL/Markdown ingestion, BM25-style plus TF-IDF hybrid retrieval, read-only shipment lookup and regex guardrails.
+
 
 **Status:** Verified in Google Colab. The revised suite passed all 29 tests. Ingestion loaded 7 synthetic shipments and 25 policy chunks. The retrieval evaluation was rerun, and the previously failing cross-border escalation case now matches `cross_border.md#Escalation and holds`. Aggregate evaluation metrics were not captured in the screenshot, so they remain unreported.
 

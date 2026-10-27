@@ -1,4 +1,8 @@
 # Project 02 — Fintech Transaction Fraud Scoring & High-Value Customer Segmentation
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, NumPy, Pandas, scikit-learn (Decision Tree, Random Forest, K-Means), Matplotlib, joblib and unittest.
+
 
 **Status: Implemented baseline; seven automated tests and end-to-end training/segmentation passed.**
 

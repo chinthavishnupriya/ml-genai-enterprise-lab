@@ -21,20 +21,24 @@ See [REPOSITORY_AUDIT.md](REPOSITORY_AUDIT.md) for the project-by-project review
 
 ## Project index
 
-1. [Industrial IoT Failure Prediction](01-industrial-iot-failure-prediction/)
-2. [Fintech Fraud Detection](02-fintech-fraud-detection/)
-3. [Supply Chain Forecasting](03-supply-chain-forecasting/)
-4. [Customer Support Intent Router](04-customer-support-intent-router/)
-5. [Healthcare RAG](05-healthcare-rag/)
-6. [Legal Hybrid RAG](06-legal-hybrid-rag/)
-7. [Financial Analyst Agent](07-financial-analyst-agent/)
-8. [DevSecOps Multi-Agent Audit](08-devsecops-multi-agent/)
-9. [Insurance Claims LoRA/QLoRA](09-insurance-qlora/)
-10. [Enterprise Agentic RAG Capstone](10-enterprise-agentic-rag-capstone/)
+1. [Industrial IoT Failure Prediction](01-industrial-iot-failure-prediction/) · [Detailed technical guide](01-industrial-iot-failure-prediction/PROJECT_DOCUMENTATION.md)
+2. [Fintech Fraud Detection](02-fintech-fraud-detection/) · [Detailed technical guide](02-fintech-fraud-detection/PROJECT_DOCUMENTATION.md)
+3. [Supply Chain Forecasting](03-supply-chain-forecasting/) · [Detailed technical guide](03-supply-chain-forecasting/PROJECT_DOCUMENTATION.md)
+4. [Customer Support Intent Router](04-customer-support-intent-router/) · [Detailed technical guide](04-customer-support-intent-router/PROJECT_DOCUMENTATION.md)
+5. [Healthcare RAG](05-healthcare-rag/) · [Detailed technical guide](05-healthcare-rag/PROJECT_DOCUMENTATION.md)
+6. [Legal Hybrid RAG](06-legal-hybrid-rag/) · [Detailed technical guide](06-legal-hybrid-rag/PROJECT_DOCUMENTATION.md)
+7. [Financial Analyst Agent](07-financial-analyst-agent/) · [Detailed technical guide](07-financial-analyst-agent/PROJECT_DOCUMENTATION.md)
+8. [DevSecOps Multi-Agent Audit](08-devsecops-multi-agent/) · [Detailed technical guide](08-devsecops-multi-agent/PROJECT_DOCUMENTATION.md)
+9. [Insurance Claims LoRA/QLoRA](09-insurance-qlora/) · [Detailed technical guide](09-insurance-qlora/PROJECT_DOCUMENTATION.md)
+10. [Enterprise Agentic RAG Capstone](10-enterprise-agentic-rag-capstone/) · [Detailed technical guide](10-enterprise-agentic-rag-capstone/PROJECT_DOCUMENTATION.md)
+
+## Documentation structure
+
+Each project directory now contains two documents: `README.md` for quick start and verification status, and `PROJECT_DOCUMENTATION.md` for the detailed technology stack, architecture, source-file map, implementation workflow, commands, generated artifacts, testing evidence, limitations and potential next steps.
 
 ## Usage
 
-Read the README inside each project directory for dependencies, setup, execution, generated outputs, and verification notes. Most Python projects recommend Python 3.10–3.13 depending on package compatibility.
+Open each project's README for the quick start, then use its detailed technical guide to understand the implementation. Most Python projects recommend Python 3.10–3.13 depending on package compatibility.
 
 ## Data, reproducibility, and safety
 

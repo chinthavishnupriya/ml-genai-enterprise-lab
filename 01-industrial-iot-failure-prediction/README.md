@@ -1,4 +1,8 @@
 # Project 01 — Industrial IoT Telemetry Anomaly Detection & Failure Prediction
+> **Detailed project guide:** [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) covers the architecture, technologies, source files, workflow, commands, outputs, tests and limitations.
+>
+> **Technology stack:** Python, NumPy, Pandas, scikit-learn pipelines, Matplotlib, joblib and unittest.
+
 
 ## Problem statement
 
