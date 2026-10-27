@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Raw QLoRA adapter evaluation showed weak field fidelity (50% next-step accuracy, 12.5% exact claim-ID match, and 37.5% exact missing-document match on 8 synthetic cases). A guarded hybrid pipeline has now been added: deterministic rules own all structured fields; the model can contribute only a screened, clearly labeled summary draft. The new pipeline tests/evaluation are pending Colab verification. Do not use this demo for real claims.
+**Status:** Guarded hybrid pipeline verified in Google Colab. All 30 tests pass, and deterministic guard evaluation returned 100% for seven checked fields across eight synthetic examples, even when the supplied model fields were incorrect. The raw adapter remains unreliable at filling structured fields; deterministic code supplies those values and the model may contribute only a screened, clearly labeled narrative draft for human verification. This is not real claims performance; do not use it for real claims.
 
 ## Objective
 
@@ -77,7 +77,7 @@ The guard pipeline does not require the GPU or a trained adapter; it can be chec
 !python -m src.evaluate_guarded_pipeline
 ~~~
 
-The test should verify that claim ID, category, queue, missing documents, next action, and the human-review flag come from trusted input plus deterministic rules, not model output. A model summary is treated as an untrusted draft and labeled for human verification; unsafe or malformed summaries fall back to deterministic text.
+Verified in Colab: 30 tests passed and the guarded evaluation returned 1.0 for claim ID, claim type, recommended queue, next step, missing documents, mandatory human review, and schema validity on eight synthetic cases. The evaluation intentionally supplies incorrect model fields to test that the guard ignores them. These results validate deterministic guard behavior—not language-model accuracy or real claims performance. A model summary is an untrusted draft labeled for human verification; unsafe or malformed summaries fall back to deterministic text.
 
 ## Data and split strategy
 
