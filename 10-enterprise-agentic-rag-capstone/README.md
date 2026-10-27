@@ -1,6 +1,6 @@
 # Project 10 — Enterprise Agentic RAG Capstone
 
-**Status:** Initial Google Colab run passed all 27 original tests and the ingestion/sample-command checks. The nine-case evaluation exposed an exact-section retrieval mismatch for cross-border escalation. Retrieval normalization and heading-ranking improvements plus two regression tests have been committed; the revised 29-test suite and evaluation need to be rerun before calling the retrieval evaluation verified.
+**Status:** Verified in Google Colab. The revised suite passed all 29 tests. Ingestion loaded 7 synthetic shipments and 25 policy chunks. The retrieval evaluation was rerun, and the previously failing cross-border escalation case now matches `cross_border.md#Escalation and holds`. Aggregate evaluation metrics were not captured in the screenshot, so they remain unreported.
 
 ## Objective
 
@@ -73,7 +73,7 @@ python -m src.evaluate runs a small, manually labelled set of nine questions. It
 - **Context precision at answered sources:** share of cited answer sources matching the hand-labelled expected source.
 - **Citation coverage:** share of evaluation cases whose responses contain citations.
 
-These are RAGAS-inspired smoke metrics implemented locally, not the RAGAS library. They do not measure semantic faithfulness or production answer quality. The hand-labelled dataset is small and synthetic. In the first Colab run, the cross-border escalation case did not include its expected `cross_border.md#Escalation and holds` citation among the answer citations. Retrieval normalization and heading-ranking logic were updated, with exact-section regression tests added. Rerun the revised tests and evaluation to verify the fix; do not rely on the previous aggregate evaluation result.
+These are RAGAS-inspired smoke metrics implemented locally, not the RAGAS library. They do not measure semantic faithfulness or production answer quality. The hand-labelled dataset is small and synthetic. The first Colab run exposed a cross-border escalation citation mismatch. After retrieval normalization, heading ranking, and two regression tests were added, the revised 29-test suite passed and the escalation evaluation case returned `matched: true`. The overall metric summary was not visible in the latest screenshot, so aggregate values are intentionally not recorded.
 
 ## Data and limitations
 

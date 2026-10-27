@@ -1,22 +1,22 @@
 {
   "project": "10-enterprise-agentic-rag-capstone",
-  "status": "INITIAL_COLAB_RUN_PASSED_27_TESTS_RETRIEVAL_FIX_COMMITTED_RETEST_PENDING",
+  "status": "COLAB_VERIFIED_29_TESTS_PASS_EVALUATION_REGRESSION_CONFIRMED",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "Not captured in screenshots",
     "dependencies": "Python standard library only"
   },
   "unit_tests": {
-    "status": "PENDING_AFTER_RETRIEVAL_PATCH",
+    "status": "PASS",
     "previous_revision": {
       "status": "PASS",
       "passed": 27,
       "failed": 0
     },
     "current_revision_expected_count": 29,
-    "current_revision_passed": null,
-    "current_revision_failed": null,
-    "evidence": "User-provided screenshots show the initial revision reported Ran 27 tests / OK. Two exact-section retrieval regression tests have since been added."
+    "current_revision_passed": 29,
+    "current_revision_failed": 0,
+    "evidence": "User-provided Colab screenshot shows Ran 29 tests and OK after the retrieval fix."
   },
   "data": {
     "synthetic_shipments": 7,
@@ -37,22 +37,22 @@
     "Hand-labelled RAGAS-inspired smoke evaluation"
   ],
   "evaluation": {
-    "status": "RAN_WITH_OBSERVED_EXACT_SECTION_MISMATCH; RETEST_AFTER_PATCH_PENDING",
+    "status": "RAN_REGRESSION_CONFIRMED_AGGREGATE_METRICS_NOT_CAPTURED",
     "cases": 9,
     "expected_source_match_rate": null,
     "context_precision_at_answered_sources": null,
     "citation_coverage": null,
-    "observed_issue": {
+    "observed_regression": {
       "question": "How should cross-border delays be escalated?",
       "expected_citation": "cross_border.md#Escalation and holds",
-      "displayed_answer_citations": [
+      "matched_after_patch": true,
+      "citations_shown": [
         "cross_border.md#Synthetic Cross-Border Logistics Policy",
-        "delay_escalation.md#Severity levels"
-      ],
-      "matched": false
+        "cross_border.md#Escalation and holds"
+      ]
     },
-    "remediation": "Added inflection normalization (e.g. escalated/escalation) and section-heading ranking bonus; added two exact-section regression tests. Run the revised evaluation again before recording aggregate metrics.",
-    "note": "RAGAS-inspired deterministic smoke metrics, not the RAGAS package. The nine-case output's aggregate metrics were not fully visible in the provided screenshot, so they have not been inferred."
+    "remediation": "Added inflection normalization and section-heading ranking plus two exact-section regression tests. The revised 29-test suite passed and the previously failing cross-border escalation evaluation case now matches.",
+    "note": "The evaluator was rerun in Colab. The screenshot confirms the regression case now matches, but the aggregate metric summary at the top of the output was not visible, so aggregate values remain unreported. These are deterministic smoke metrics rather than full RAGAS or production-quality measures."
   },
   "security_scope": {
     "tools_read_only": true,
@@ -61,7 +61,7 @@
     "automatic_write_actions": false,
     "limitations": [
       "Rule-based prompt injection and PII checks can miss patterns.",
-      "Lexical retrieval can miss semantic paraphrases; an exact-section mismatch was observed and a ranking fix is pending verification.",
+      "Lexical retrieval can miss semantic paraphrases; an exact-section retrieval issue was fixed and the regression test plus full 29-test suite now pass.",
       "All sources and shipments are fictional."
     ]
   },
