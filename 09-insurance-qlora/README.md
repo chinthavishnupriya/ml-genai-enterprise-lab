@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Offline workflow and QLoRA training verified in Google Colab. All 20 tests pass; the 48/8/8 scenario-grouped split and rules baseline passed. QLoRA-NF4 training completed for two epochs on an NVIDIA Tesla T4, and the adapter was saved to `artifacts/claim-triage-qlora`. Held-out adapter evaluation is the remaining step.
+**Status:** Offline workflow and QLoRA training completed in Google Colab; adapter evaluation is partial. All 20 offline tests pass and QLoRA-NF4 trained for two epochs on a Tesla T4. The adapter produced valid schemas and correct queue labels on 8/8 held-out synthetic examples, but next-step accuracy was 4/8 (50%). Exact claim-ID consistency is not scored by the current evaluator and visible output previews show likely ID-copy errors. Do not use this adapter for real claims.
 
 ## Objective
 
@@ -65,7 +65,7 @@ The adapter was trained in the recorded Colab session. Run this next to measure 
 !python -m src.evaluate_adapter --adapter-dir artifacts/claim-triage-qlora
 ~~~
 
-For a QLoRA run, use --adapter-dir artifacts/claim-triage-qlora. The evaluator reports valid schema rate, route accuracy, and next-step accuracy on the held-out synthetic scenario. The rules-baseline score is not a model benchmark and must not be compared with a fine-tuned model as if the datasets or methods were independent.
+For a QLoRA run, use --adapter-dir artifacts/claim-triage-qlora. The evaluator reports valid schema rate, route accuracy, and next-step accuracy on eight held-out synthetic examples. The recorded adapter evaluation returned schema validity 8/8, queue match 8/8, and next-step match 4/8. Exact claim-ID matching is not currently measured, and the output preview showed generated IDs that appear to differ from the evaluated example IDs. Next improvements: include the claim ID and required-document checklist in the input prompt, add exact claim-ID and missing-document metrics, retrain, and evaluate again. Do not use the current adapter for real claims. The rules-baseline score is not a model benchmark and must not be compared with a fine-tuned model as if the datasets or methods were independent.
 
 ## Data and split strategy
 

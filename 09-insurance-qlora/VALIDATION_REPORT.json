@@ -1,6 +1,6 @@
 {
   "project": "09-insurance-qlora",
-  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_IN_GOOGLE_COLAB",
+  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_ADAPTER_EVALUATION_PARTIAL",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "3.13 (visible from package paths; exact runtime version not independently verified)",
@@ -78,7 +78,26 @@
       "eval_steps_per_second": 3.81
     },
     "evidence": "User-provided Google Colab screenshot shows training completed for two epochs and the adapter saved to artifacts/claim-triage-qlora.",
-    "adapter_evaluation": "PENDING",
+    "adapter_evaluation": {
+      "status": "RUN_COMPLETED_WITH_PARTIAL_NEXT_STEP_MATCH",
+      "test_examples": 8,
+      "valid_schema_rate": 1,
+      "route_accuracy": 1,
+      "next_step_accuracy": 0.5,
+      "counts": {
+        "valid_schema": 8,
+        "route_match": 8,
+        "next_step_match": 4
+      },
+      "claim_id_consistency": {
+        "status": "NOT_MEASURED_BY_CURRENT_EVALUATOR",
+        "note": "Visible output previews include generated claim IDs that appear different from the outer evaluation example ID. The current evaluator does not calculate claim_id accuracy, so a numerical score cannot be reported."
+      },
+      "evidence": "User-provided Google Colab screenshot after removing incompatible torchao shows eight held-out rows; all displayed valid_schema and route_match fields are true, while four next_step_match fields are false.",
+      "result_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora/adapter_evaluation.json",
+      "interpretation": "The small adapter follows output schema and predicts queue labels on this tiny synthetic set, but next-step classification is only 4/8. It is not ready for real claim routing.",
+      "recommended_follow_up": "Include the expected claim ID and required-document checklist in the input prompt, add claim-ID and missing-document match metrics, then retrain and re-evaluate the adapter."
+    },
     "note": "Synthetic smoke fine-tuning only. Validation loss does not establish claims accuracy or suitability for real claim workflows."
   },
   "implemented_capabilities": [
@@ -94,8 +113,10 @@
   "limitations": [
     "No real insurance/claimant data is included.",
     "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "QLoRA training completed on a Google Colab Tesla T4; adapter generation quality has not yet been evaluated on the held-out scenario.",
+    "QLoRA training completed on a Google Colab Tesla T4, but the adapter's next-step accuracy is only 50% on eight synthetic held-out examples.",
+    "The current adapter evaluator does not measure exact claim-ID match, and output previews show likely ID-copy errors.",
+    "The eight-example synthetic test is too small to support broad generalization claims.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
   ],
-  "next_step": "Run src.evaluate_adapter with --adapter-dir artifacts/claim-triage-qlora and record held-out schema/route/action scores."
+  "next_step": "Improve prompt inputs and adapter evaluation coverage, retrain the small QLoRA adapter, and rerun held-out evaluation. Do not use the current adapter for real claims."
 }
