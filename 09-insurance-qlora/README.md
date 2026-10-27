@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Offline workflow and QLoRA training completed in Google Colab; the adapter's first evaluation was partial. All 20 offline tests passed and QLoRA-NF4 trained for two epochs on a Tesla T4. The prior adapter produced valid schemas and correct queue labels on 8/8 held-out synthetic examples, but next-step accuracy was 4/8 (50%). The training prompt and evaluator are now improved; retraining with the updated prompt is required before new metrics can be reported. Do not use the old adapter for real claims.
+**Status:** Offline workflow and QLoRA training completed in Google Colab. The revised adapter (`artifacts/claim-triage-qlora-v2`) evaluates on eight synthetic test examples with 100% schema validity and queue match, 50% next-step accuracy, 12.5% exact claim-ID match, 37.5% exact missing-document match, and 100% human-review flag compliance. The prompt revision did not resolve field fidelity; use deterministic guards for authoritative structured fields and keep human review mandatory. Do not use this model for real claims.
 
 ## Objective
 

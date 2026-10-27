@@ -1,6 +1,6 @@
 {
   "project": "09-insurance-qlora",
-  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_ADAPTER_PROMPT_FIX_COMMITTED_RETRAIN_REQUIRED",
+  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_RAW_ADAPTER_EVALUATION_PARTIAL",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "3.13 (visible from package paths; exact runtime version not independently verified)",
@@ -57,7 +57,7 @@
     "default_base_model": "Qwen/Qwen2.5-0.5B-Instruct",
     "method": "QLoRA-NF4",
     "adapter_created": true,
-    "adapter_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora",
+    "adapter_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora-v2",
     "epochs_completed": 2,
     "seed": 42,
     "dataset_counts": {
@@ -79,24 +79,26 @@
     },
     "evidence": "User-provided Google Colab screenshot shows training completed for two epochs and the adapter saved to artifacts/claim-triage-qlora.",
     "adapter_evaluation": {
-      "status": "PRIOR_EVALUATION_PARTIAL_PROMPT_FIX_COMMITTED_RETRAIN_REQUIRED",
+      "status": "RUN_COMPLETED_PROMPT_REVISION_DID_NOT_RESOLVE_FIELD_FIDELITY",
+      "adapter_dir": "artifacts/claim-triage-qlora-v2",
       "test_examples": 8,
       "valid_schema_rate": 1,
       "route_accuracy": 1,
       "next_step_accuracy": 0.5,
+      "claim_id_exact_match_rate": 0.125,
+      "missing_documents_exact_match_rate": 0.375,
+      "human_review_required_rate": 1,
       "counts": {
         "valid_schema": 8,
         "route_match": 8,
-        "next_step_match": 4
+        "next_step_match": 4,
+        "claim_id_exact_match": 1,
+        "missing_documents_exact_match": 3,
+        "human_review_required": 8
       },
-      "claim_id_consistency": {
-        "status": "NOT_MEASURED_BY_CURRENT_EVALUATOR",
-        "note": "Visible output previews include generated claim IDs that appear different from the outer evaluation example ID. The current evaluator does not calculate claim_id accuracy, so a numerical score cannot be reported."
-      },
-      "evidence": "User-provided Google Colab screenshot after removing incompatible torchao shows eight held-out rows; all displayed valid_schema and route_match fields are true, while four next_step_match fields are false.",
-      "result_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora/adapter_evaluation.json",
-      "interpretation": "The small adapter follows output schema and predicts queue labels on this tiny synthetic set, but next-step classification is only 4/8. It is not ready for real claim routing.",
-      "recommended_follow_up": "The training prompt now includes the exact synthetic claim ID, claim type, submitted documents, and required-document checklist. The evaluator now records exact claim-ID match, missing-document exact match, and human-review compliance. Retrain with the updated prompt and rerun evaluation; updated metrics have not yet been produced."
+      "evidence": "User-provided Colab screenshot for artifacts/claim-triage-qlora-v2 shows the above summary metrics and rows for eight held-out synthetic examples.",
+      "interpretation": "Adding claim metadata to the prompt did not make the model reliably copy claim IDs or infer the next step and missing documents. The model should not be trusted to populate authoritative structured fields directly.",
+      "recommended_follow_up": "Prefer a hybrid architecture: derive claim ID, claim type, queue, missing-document list, next step, and mandatory human review from validated input data and deterministic rules. Restrict model use to a draft narrative summary, label it as model-generated, and require human review. Evaluate raw-model and guarded-pipeline metrics separately."
     },
     "note": "Synthetic smoke fine-tuning only. Validation loss does not establish claims accuracy or suitability for real claim workflows."
   },
@@ -113,10 +115,9 @@
   "limitations": [
     "No real insurance/claimant data is included.",
     "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "Prior adapter evaluation on eight synthetic examples achieved 100% schema validity and queue match but 50% next-step accuracy; claim-ID and missing-document accuracy were not measured.",
-    "The training prompt and evaluator have been updated, but the existing adapter must be retrained before measuring the revised prompt.",
-    "The eight-example synthetic test is too small to support broad generalization claims.",
+    "The latest adapter achieved 100% schema validity and routing match on eight synthetic test examples, but only 50% next-step accuracy, 12.5% exact claim-ID matching, and 37.5% exact missing-document matching.",
+    "A small synthetic test set cannot support broad generalization claims.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
   ],
-  "next_step": "Retrain QLoRA with the revised prompt; then re-evaluate schema, route, next-step, claim-ID, missing-document, and human-review metrics. Do not use the prior adapter for real claims."
+  "next_step": "Implement and test deterministic guards for structured fields while preserving raw-model metrics separately. Do not use the adapter output as authoritative for real claims."
 }
