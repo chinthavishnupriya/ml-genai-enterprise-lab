@@ -1,0 +1,46 @@
+{
+  "project": "10-enterprise-agentic-rag-capstone",
+  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
+  "validation_environment": null,
+  "unit_tests": {
+    "status": "PENDING",
+    "expected_count": 27,
+    "passed": null,
+    "failed": null
+  },
+  "data": {
+    "synthetic_shipments": 7,
+    "policy_files": 6,
+    "ingestion": "IMPLEMENTED_PENDING_VERIFICATION"
+  },
+  "architecture": [
+    "Validated shipment JSONL ingestion with duplicate and schema checks",
+    "Heading-aware Markdown policy chunking",
+    "BM25-style lexical plus TF-IDF cosine hybrid retrieval",
+    "Deterministic intent router and read-only shipment lookup",
+    "Source-cited answers and abstention when evidence is missing",
+    "Prompt-injection input checks and email/phone redaction",
+    "Output citation allowlist validation",
+    "Structured trace for tool routing and safety events",
+    "Hand-labelled RAGAS-inspired smoke evaluation"
+  ],
+  "evaluation": {
+    "status": "PENDING",
+    "cases": 9,
+    "expected_source_match_rate": null,
+    "context_precision_at_answered_sources": null,
+    "citation_coverage": null,
+    "note": "These are local smoke metrics with manually labelled synthetic cases, not the RAGAS package and not a production-quality evaluation."
+  },
+  "security_scope": {
+    "tools_read_only": true,
+    "source_code_executed_by_agent": false,
+    "external_network_access": false,
+    "automatic_write_actions": false,
+    "limitations": [
+      "Rule-based prompt injection and PII checks can miss patterns.",
+      "Lexical retrieval can miss semantic paraphrases.",
+      "All sources and shipments are fictional."
+    ]
+  }
+}
