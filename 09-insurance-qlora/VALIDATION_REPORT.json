@@ -1,6 +1,6 @@
 {
   "project": "09-insurance-qlora",
-  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_ADAPTER_EVALUATION_PARTIAL",
+  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_ADAPTER_PROMPT_FIX_COMMITTED_RETRAIN_REQUIRED",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "3.13 (visible from package paths; exact runtime version not independently verified)",
@@ -79,7 +79,7 @@
     },
     "evidence": "User-provided Google Colab screenshot shows training completed for two epochs and the adapter saved to artifacts/claim-triage-qlora.",
     "adapter_evaluation": {
-      "status": "RUN_COMPLETED_WITH_PARTIAL_NEXT_STEP_MATCH",
+      "status": "PRIOR_EVALUATION_PARTIAL_PROMPT_FIX_COMMITTED_RETRAIN_REQUIRED",
       "test_examples": 8,
       "valid_schema_rate": 1,
       "route_accuracy": 1,
@@ -96,7 +96,7 @@
       "evidence": "User-provided Google Colab screenshot after removing incompatible torchao shows eight held-out rows; all displayed valid_schema and route_match fields are true, while four next_step_match fields are false.",
       "result_path_in_colab": "/content/ml-genai-enterprise-lab/09-insurance-qlora/artifacts/claim-triage-qlora/adapter_evaluation.json",
       "interpretation": "The small adapter follows output schema and predicts queue labels on this tiny synthetic set, but next-step classification is only 4/8. It is not ready for real claim routing.",
-      "recommended_follow_up": "Include the expected claim ID and required-document checklist in the input prompt, add claim-ID and missing-document match metrics, then retrain and re-evaluate the adapter."
+      "recommended_follow_up": "The training prompt now includes the exact synthetic claim ID, claim type, submitted documents, and required-document checklist. The evaluator now records exact claim-ID match, missing-document exact match, and human-review compliance. Retrain with the updated prompt and rerun evaluation; updated metrics have not yet been produced."
     },
     "note": "Synthetic smoke fine-tuning only. Validation loss does not establish claims accuracy or suitability for real claim workflows."
   },
@@ -113,10 +113,10 @@
   "limitations": [
     "No real insurance/claimant data is included.",
     "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "QLoRA training completed on a Google Colab Tesla T4, but the adapter's next-step accuracy is only 50% on eight synthetic held-out examples.",
-    "The current adapter evaluator does not measure exact claim-ID match, and output previews show likely ID-copy errors.",
+    "Prior adapter evaluation on eight synthetic examples achieved 100% schema validity and queue match but 50% next-step accuracy; claim-ID and missing-document accuracy were not measured.",
+    "The training prompt and evaluator have been updated, but the existing adapter must be retrained before measuring the revised prompt.",
     "The eight-example synthetic test is too small to support broad generalization claims.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
   ],
-  "next_step": "Improve prompt inputs and adapter evaluation coverage, retrain the small QLoRA adapter, and rerun held-out evaluation. Do not use the current adapter for real claims."
+  "next_step": "Retrain QLoRA with the revised prompt; then re-evaluate schema, route, next-step, claim-ID, missing-document, and human-review metrics. Do not use the prior adapter for real claims."
 }

@@ -39,7 +39,7 @@ def main() -> int:
     model = PeftModel.from_pretrained(base, adapter)
     model.eval()
     test = split_examples()["test"]
-    valid_json = route_matches = action_matches = 0
+    valid_json = route_matches = action_matches = claim_id_matches = missing_documents_matches = human_review_matches = 0
     rows = []
     for example in test:
         prompt = format_prompt(example)
@@ -62,14 +62,23 @@ def main() -> int:
         expected = example["target"]
         route_ok = bool(valid and parsed.get("recommended_queue") == expected["recommended_queue"])
         action_ok = bool(valid and parsed.get("next_step") == expected["next_step"])
+        claim_id_ok = bool(valid and parsed.get("claim_id") == expected["claim_id"])
+        missing_documents_ok = bool(valid and parsed.get("missing_documents") == expected["missing_documents"])
+        human_review_ok = bool(valid and parsed.get("human_review_required") is True)
         valid_json += int(valid)
         route_matches += int(route_ok)
         action_matches += int(action_ok)
+        claim_id_matches += int(claim_id_ok)
+        missing_documents_matches += int(missing_documents_ok)
+        human_review_matches += int(human_review_ok)
         rows.append({
-            "claim_id": example["claim_id"],
+            "expected_claim_id": example["claim_id"],
+            "claim_id_match": claim_id_ok,
             "valid_schema": valid,
             "route_match": route_ok,
             "next_step_match": action_ok,
+            "missing_documents_match": missing_documents_ok,
+            "human_review_match": human_review_ok,
             "output_preview": answer_text[:240],
         })
     count = len(test)
@@ -80,6 +89,9 @@ def main() -> int:
         "valid_schema_rate": round(valid_json / count, 4) if count else 0.0,
         "route_accuracy": round(route_matches / count, 4) if count else 0.0,
         "next_step_accuracy": round(action_matches / count, 4) if count else 0.0,
+        "claim_id_exact_match_rate": round(claim_id_matches / count, 4) if count else 0.0,
+        "missing_documents_exact_match_rate": round(missing_documents_matches / count, 4) if count else 0.0,
+        "human_review_required_rate": round(human_review_matches / count, 4) if count else 0.0,
         "rows": rows,
         "note": "Tiny synthetic held-out scenario; results do not imply real insurance claim accuracy or support automated claim decisions."
     }

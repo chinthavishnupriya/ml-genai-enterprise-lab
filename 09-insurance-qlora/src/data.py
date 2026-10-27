@@ -75,18 +75,28 @@ def build_examples() -> list[dict[str, Any]]:
 
 
 def format_prompt(example: dict[str, Any]) -> str:
+    submitted = example["submitted_documents"] or ["none"]
+    required = example["required_documents"]
     return (
         "### Task\n"
         + example["instruction"]
-        + "\n\n### Synthetic claim record\n"
+        + "\n\n### Claim metadata (copy these fields exactly)\n"
+        + f"Claim ID: {example['claim_id']}\n"
+        + f"Claim type: {example['claim_type']}\n"
+        + f"Submitted documents: {', '.join(submitted)}\n"
+        + f"Required documents for this claim type: {', '.join(required)}\n"
+        + "Missing documents are the required documents not present in the submitted-document list. Return their exact names. "
+        + "Copy the claim ID exactly as written above.\n"
+        + "\n### Synthetic claim record\n"
         + example["claim_text"]
         + "\n\n### Required output\n"
         + "Return only a JSON object with keys: claim_id, claim_type, recommended_queue, next_step, "
-        "missing_documents, human_review_required, summary. Set human_review_required to true. "
+        "missing_documents, human_review_required, summary. Copy claim_id and claim_type exactly from Claim metadata. "
+        "Set recommended_queue to claim_type. Set next_step to request_missing_documents when the missing-document list is non-empty; "
+        "otherwise set it to queue_for_human_review. Set human_review_required to true. "
         "Only request missing documents or route to a human reviewer; never decide claim approval, denial, payment, liability, or fraud.\n\n"
         + "### Response JSON\n"
     )
-
 
 def split_examples(examples: list[dict[str, Any]] | None = None) -> dict[str, list[dict[str, Any]]]:
     """Split by scenario group so closely templated variants cannot cross partitions."""

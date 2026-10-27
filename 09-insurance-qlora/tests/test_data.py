@@ -41,6 +41,10 @@ class SyntheticDataTests(unittest.TestCase):
         self.assertIn("Synthetic claim record", prompt)
         self.assertIn("Always require human review", prompt)
         self.assertIn("never decide claim approval", prompt.lower())
+        self.assertIn(f"Claim ID: {build_examples()[0]['claim_id']}", prompt)
+        self.assertIn("Submitted documents:", prompt)
+        self.assertIn("Required documents for this claim type:", prompt)
+        self.assertIn("Copy the claim ID exactly", prompt)
 
     def test_generated_targets_follow_schema(self):
         for row in build_examples():
