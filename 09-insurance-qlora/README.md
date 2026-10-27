@@ -1,6 +1,6 @@
 # Project 09 — Insurance Claims LoRA / QLoRA
 
-**Status:** Offline workflow and QLoRA training completed in Google Colab. The revised adapter (`artifacts/claim-triage-qlora-v2`) evaluates on eight synthetic test examples with 100% schema validity and queue match, 50% next-step accuracy, 12.5% exact claim-ID match, 37.5% exact missing-document match, and 100% human-review flag compliance. The prompt revision did not resolve field fidelity; use deterministic guards for authoritative structured fields and keep human review mandatory. Do not use this model for real claims.
+**Status:** Raw QLoRA adapter evaluation showed weak field fidelity (50% next-step accuracy, 12.5% exact claim-ID match, and 37.5% exact missing-document match on 8 synthetic cases). A guarded hybrid pipeline has now been added: deterministic rules own all structured fields; the model can contribute only a screened, clearly labeled summary draft. The new pipeline tests/evaluation are pending Colab verification. Do not use this demo for real claims.
 
 ## Objective
 
@@ -14,7 +14,7 @@ Demonstrate a parameter-efficient fine-tuning workflow for a narrow claims-docum
 - Offline rules baseline and a held-out synthetic smoke evaluator.
 - Optional causal language model fine-tuning using LoRA; optional QLoRA mode loads base weights with NF4 4-bit quantization and double quantization.
 - Optional adapter evaluation on the held-out scenario group.
-- Tests for data generation, split leakage, output validation, document handling, baseline behavior, and evaluation.
+- Tests for data generation, split leakage, output validation, document handling, baseline behavior, guarded pipeline invariants, and evaluation.
 - No API keys or real insurance/medical claimant data required.
 
 ## Step 1 — Offline verification in Google Colab
@@ -28,10 +28,11 @@ Use the existing repository clone from previous projects. If it is present, pull
 !python -m unittest discover -s tests -v
 !python -m src.data --output-dir data/processed
 !python -m src.evaluate
+!python -m src.evaluate_guarded_pipeline
 !python -m src.predict --claim-type auto_collision --description "Synthetic parking-lot collision" --documents incident_report,damage_photos
 ~~~
 
-The default workflow uses only the Python standard library. In the verified Colab run, all 20 tests passed; the scenario-grouped data split was 48 train / 8 validation / 8 test. The rules baseline matched all expected fields on the eight synthetic test examples and the sample CLI requested repair_estimate while keeping human review mandatory. These results test program logic only; they are not real claims accuracy. The generated data/processed files are ignored by Git.
+The default workflow uses only the Python standard library. In the verified Colab run, all 20 original offline tests passed; the new hybrid pipeline adds 10 more tests pending Colab verification; the scenario-grouped data split was 48 train / 8 validation / 8 test. The rules baseline matched all expected fields on the eight synthetic test examples and the sample CLI requested repair_estimate while keeping human review mandatory. These results test program logic only; they are not real claims accuracy. The generated data/processed files are ignored by Git.
 
 ## Step 2 — Optional LoRA/QLoRA training
 
@@ -65,7 +66,18 @@ The adapter was trained in the recorded Colab session. Run this next to measure 
 !python -m src.evaluate_adapter --adapter-dir artifacts/claim-triage-qlora
 ~~~
 
-For a QLoRA run, use --adapter-dir artifacts/claim-triage-qlora. The evaluator reports valid schema rate, route accuracy, and next-step accuracy on eight held-out synthetic examples. The recorded adapter evaluation returned schema validity 8/8, queue match 8/8, and next-step match 4/8. Exact claim-ID matching is not currently measured, and the output preview showed generated IDs that appear to differ from the evaluated example IDs. Next improvements: include the claim ID and required-document checklist in the input prompt, add exact claim-ID and missing-document metrics, retrain, and evaluate again. Do not use the current adapter for real claims. The rules-baseline score is not a model benchmark and must not be compared with a fine-tuned model as if the datasets or methods were independent.
+For a QLoRA run, use --adapter-dir artifacts/claim-triage-qlora. The evaluator reports valid schema rate, route accuracy, and next-step accuracy on eight held-out synthetic examples. The v2 adapter returned schema validity 8/8, queue match 8/8, next-step match 4/8, exact claim-ID match 1/8, exact missing-document match 3/8, and human-review flag compliance 8/8. This proves the raw adapter does not reliably populate the structured fields. We now provide `src.guarded_pipeline.guarded_triage`, which computes claim ID/type/queue/next step/missing documents/human-review from validated input and the documented deterministic rules, ignoring the model's versions of those fields. It accepts only a short screened summary as a clearly labeled draft. Run `!python -m src.evaluate_guarded_pipeline` to check this guard behavior. Its 100% synthetic guard metrics would validate deterministic logic—not model accuracy or real claim quality. Do not use this demo for real claims. The rules-baseline score is not a model benchmark and must not be compared with a fine-tuned model as if the datasets or methods were independent.
+
+## Step 4 — Verify the guarded hybrid pipeline (no retraining needed)
+
+The guard pipeline does not require the GPU or a trained adapter; it can be checked using the synthetic inputs and deliberately incorrect model fields:
+
+~~~python
+!python -m unittest discover -s tests -v
+!python -m src.evaluate_guarded_pipeline
+~~~
+
+The test should verify that claim ID, category, queue, missing documents, next action, and the human-review flag come from trusted input plus deterministic rules, not model output. A model summary is treated as an untrusted draft and labeled for human verification; unsafe or malformed summaries fall back to deterministic text.
 
 ## Data and split strategy
 

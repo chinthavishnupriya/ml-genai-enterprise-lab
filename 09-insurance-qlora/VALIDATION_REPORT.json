@@ -1,6 +1,6 @@
 {
   "project": "09-insurance-qlora",
-  "status": "OFFLINE_WORKFLOW_AND_QLORA_TRAINING_VERIFIED_RAW_ADAPTER_EVALUATION_PARTIAL",
+  "status": "RAW_ADAPTER_EVALUATION_PARTIAL_GUARDED_HYBRID_PIPELINE_IMPLEMENTED_PENDING_COLAB_VERIFICATION",
   "validation_environment": {
     "platform": "Google Colab",
     "python_version": "3.13 (visible from package paths; exact runtime version not independently verified)",
@@ -114,10 +114,37 @@
   ],
   "limitations": [
     "No real insurance/claimant data is included.",
-    "The rules baseline is deterministic and its evaluation labels are generated from the same rules.",
-    "The latest adapter achieved 100% schema validity and routing match on eight synthetic test examples, but only 50% next-step accuracy, 12.5% exact claim-ID matching, and 37.5% exact missing-document matching.",
-    "A small synthetic test set cannot support broad generalization claims.",
+    "The rules baseline and guarded evaluator use deterministic rules and synthetic labels; they validate implementation behavior only.",
+    "The raw QLoRA adapter has weak exact field fidelity on eight test cases; do not trust it to populate authoritative structured fields.",
+    "The guarded pipeline code has been committed but has not yet been verified in Colab.",
+    "A small synthetic test set cannot support generalization claims.",
     "No claim approval, denial, payout, fraud, liability, or coverage decision is made."
   ],
-  "next_step": "Implement and test deterministic guards for structured fields while preserving raw-model metrics separately. Do not use the adapter output as authoritative for real claims."
+  "next_step": "Pull the latest main branch in Colab, run the 30-test suite and src.evaluate_guarded_pipeline, and share the output. Do not retrain the adapter for this guarded-pipeline verification.",
+  "guarded_hybrid_pipeline": {
+    "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
+    "files": [
+      "src/guarded_pipeline.py",
+      "src/evaluate_guarded_pipeline.py",
+      "tests/test_guarded_pipeline.py"
+    ],
+    "expected_unit_tests_after_addition": 30,
+    "tests_added": 10,
+    "design": {
+      "authoritative_fields": [
+        "claim_id",
+        "claim_type",
+        "recommended_queue",
+        "next_step",
+        "missing_documents",
+        "human_review_required"
+      ],
+      "source": "Validated synthetic/application input plus deterministic REQUIRED_DOCUMENTS/route_claim rules",
+      "model_output_policy": "Only a short screened summary may be used, explicitly prefixed as a model-generated draft for human verification. All other model output fields are ignored.",
+      "fallback": "Deterministic summary if summary is malformed, too long, unsafe, or mentions a different synthetic claim ID."
+    },
+    "evaluation_command": "python -m src.evaluate_guarded_pipeline",
+    "evaluation_status": "NOT_RUN_AFTER_COMMIT",
+    "note": "Guard evaluation intentionally supplies wrong model fields and checks that deterministic structured fields remain correct. Passing confirms guard behavior only, not language-model quality."
+  }
 }
