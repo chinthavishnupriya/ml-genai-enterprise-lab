@@ -1,6 +1,6 @@
 # Project 08 — Collaborative Multi-Agent DevSecOps Audit
 
-**Status:** The original Colab run passed 17 tests. Two regression tests have now been added for direct-URL dependency detection, and the scanner bug has been fixed. The revised 19-test suite is pending automated CI verification.
+**Status:** Verified in Google Colab and GitHub Actions. The original 17 tests passed in Colab; after fixing direct-URL dependency detection and adding two regression tests, the revised 19-test suite passed in CI.
 
 ## Objective
 
@@ -44,7 +44,8 @@ If the repository is already cloned in this runtime, run !git -C /content/ml-gen
 
 ## Recorded Colab verification
 
-- Unit tests: 17 passed, 0 failed.
+- Original Colab tests: 17 passed, 0 failed.
+- Revised GitHub Actions tests: 19 passed, 0 failed (run [40463898783](https://github.com/chinthavishnupriya/ml-genai-enterprise-lab/actions/runs/40463898783)).
 - Synthetic fixture audit: 5 files scanned; 7 findings (4 high, 1 medium, 2 low).
 - Heuristic risk score: 34/100, classified as high.
 - Each of the four scanner agents completed with PASS status. These values describe the intentionally insecure fixture only, not the security of an arbitrary application.

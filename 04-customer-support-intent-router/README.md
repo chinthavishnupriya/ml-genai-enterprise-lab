@@ -1,6 +1,6 @@
 # Project 04 — Customer Support Intent Router
 
-**Status:** The original 13-test suite and offline benchmark passed in Colab. The optional LLM provider now applies deterministic priority floors after parsing model output, including a mandatory security/urgent override. Two regression tests were added; the revised 15-test suite is pending CI verification.
+**Status:** Verified in Google Colab and GitHub Actions. The original 13 tests passed in Colab; after provider risk-policy hardening, the revised 15-test suite passed in CI. The 18-case handcrafted synthetic benchmark remains a rule-coverage check, not production accuracy.
 
 ## Objective
 
@@ -56,8 +56,8 @@ The adapter uses OPENAI_MODEL and OPENAI_BASE_URL when configured. The offline r
 ## Verification summary
 
 - Python compilation: PASS
-- Local unit tests: 13 passed, 0 failed
-- Google Colab unit tests: 13 passed, 0 failed
+- Original Local/Colab unit tests: 13 passed, 0 failed
+- Revised GitHub Actions unit tests: 15 passed, 0 failed (run [40463898783](https://github.com/chinthavishnupriya/ml-genai-enterprise-lab/actions/runs/40463898783))
 - Offline CLI smoke test: PASS locally and in Google Colab (sample output: billing_payment, high priority, escalation required)
 - Mocked optional-provider parsing/retry tests: PASS; no real API call was made
 - Curated benchmark: 18 cases, 100% category and priority match on this handcrafted set only

@@ -16,7 +16,7 @@ This is a repository review, not a formal security audit. I did not independentl
 | **01 — Industrial IoT Failure Prediction** | Synthetic telemetry, RUL regression, failure classifier, machine-grouped train/validation/test split. Previously recorded 6 tests and end-to-end training passed. | Split and train-only imputation are documented. Results are synthetic and are not operational safety evidence. |
 | **02 — Fintech Fraud Detection** | Decision Tree / Random Forest comparison, validation-only threshold selection, customer-level K-Means. Previously recorded 7 tests and training/segmentation passed. | Row-level stratified split is a baseline only; production validation should be temporal and customer-aware, as documented. |
 | **03 — Supply Chain Forecasting** | PyTorch MLP, seeded search, chronological holdout, Random Forest baseline. Previously recorded 10 tests and full Colab training passed. | The recorded validation run lists PyTorch 2.11.0+cpu while the current requirements pin 2.14.1+cpu. Keep versions fixed when comparing metrics and rerun full training on the current pin before claiming exact metric reproducibility. In the recorded run the Random Forest baseline outperformed the MLP. |
-| **04 — Customer Support Intent Router** | Offline rule router and optional OpenAI-compatible adapter. Previously recorded 13 tests and curated benchmark passed. | **Fix added:** the optional provider result is post-processed so a security incident cannot be downgraded and a model cannot reduce a deterministic high/urgent priority. Two regression tests were added; the revised 15-test suite is pending CI. |
+| **04 — Customer Support Intent Router** | Offline rule router and optional OpenAI-compatible adapter. Previously recorded 13 tests and curated benchmark passed. | **Fix added:** the optional provider result is post-processed so a security incident cannot be downgraded and a model cannot reduce a deterministic high/urgent priority. Two regression tests were added; the revised 15-test suite passed GitHub Actions run 40463898783. |
 | **05 — Healthcare RAG** | Local extractive TF-IDF-style retrieval, citations, abstention and synthetic health-document examples. Previously recorded 14 tests and a three-query retrieval smoke evaluation passed. | PDF parsing depends on pypdf and was not exercised in the recorded validation. The demo is not an authoritative clinical reference or decision tool. |
 | **06 — Legal Hybrid RAG** | BM25 + TF-IDF, RRF, optional sentence-transformer / cross-encoder modes. Previously recorded 16 tests and six-query retrieval evaluation passed. | **Documentation fix added:** requirements no longer imply that PDF ingestion is available; the current contract loader supports Markdown/TXT only. Retrieval scores do not establish legal correctness. |
 | **07 — Financial Analyst Agent** | Read-only SQLite tool, restricted arithmetic AST, local research search and action traces. Previously recorded 20 tests and four-case smoke evaluation passed. | SQLite access is allowlisted and read-only. Outputs use fictional financials, not financial advice or live market data. |
@@ -30,12 +30,12 @@ This is a repository review, not a formal security audit. I did not independentl
 2. Hardened the optional Project 4 LLM adapter against priority/security downgrades and added regression tests.
 3. Fixed Project 8 direct-URL dependency detection and added regression tests.
 4. Corrected Project 6 dependency notes so PDF ingestion is not presented as an available feature.
-5. Kept Project 4 and Project 8 revised test results pending until CI reports success.
+5. GitHub Actions run 40463898783 passed all ten project test jobs plus the repository metadata check.
 
 ## Boundaries and remaining risks
 
 - Project datasets and domain documents are synthetic or fictional; metrics do not establish production performance.
-- The Project 4 and Project 8 changes are covered by new tests, but the revised suites remain pending until the workflow completes.
+- The Project 4 (15 tests) and Project 8 (19 tests) revised suites both passed in GitHub Actions run 40463898783.
 - Project 3's recorded training metrics and current pinned PyTorch dependency are from different versions; repeat training under the pinned environment before making exact-reproducibility claims.
 - Project 9's raw adapter must not populate authoritative claim fields; deterministic rules and human review remain mandatory.
 - A LICENSE file has not been added because choosing a license changes reuse permissions and should be an explicit maintainer decision.

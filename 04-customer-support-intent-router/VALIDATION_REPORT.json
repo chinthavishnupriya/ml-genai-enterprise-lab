@@ -7,17 +7,15 @@
   },
   "python_compile": "PASS",
   "unit_tests": {
-    "status": "PENDING_AFTER_AUDIT_PATCH",
-    "previous_run": {
+    "status": "PASS",
+    "passed": 15,
+    "failed": 0,
+    "previous_colab_run": {
       "status": "PASS",
       "passed": 13,
-      "failed": 0,
-      "evidence": "Previously recorded Colab run."
+      "failed": 0
     },
-    "expected_after_patch": 15,
-    "passed": null,
-    "failed": null,
-    "note": "Two new mocked-provider tests verify that model output cannot downgrade a security incident or a rule-based high-priority ticket."
+    "evidence": "GitHub Actions run 40463898783 completed successfully; all steps for this project test job passed."
   },
   "offline_cli_smoke_test": "PASS",
   "provider_adapter_tests": "PASS (mock transport; no real API call made)",
@@ -71,9 +69,16 @@
     },
     "environment_versions": "Not captured in the provided screenshot; requirements installation reported already satisfied."
   },
-  "status": "PROVIDER_RISK_POLICY_HARDENING_COMMITTED_CI_VERIFICATION_PENDING",
+  "status": "VERIFIED_IN_COLAB_AND_GITHUB_ACTIONS_AFTER_AUDIT_FIX",
   "audit_fixes": [
     "Optional provider result is post-processed so detected security incidents are always SECURITY_PRIVACY/URGENT with escalation and a fixed safety draft.",
     "High or urgent deterministic priority cannot be downgraded by lower model priority."
-  ]
+  ],
+  "github_actions_verification": {
+    "status": "PASS",
+    "workflow_run_id": 40463898783,
+    "url": "https://github.com/chinthavishnupriya/ml-genai-enterprise-lab/actions/runs/40463898783",
+    "test_suite_conclusion": "success",
+    "repository_metadata_job": "success"
+  }
 }
