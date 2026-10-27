@@ -1,6 +1,6 @@
 # Project 10 — Enterprise Agentic RAG Capstone
 
-**Status:** Implemented; Google Colab verification is pending. This offline capstone combines local data ingestion, hybrid retrieval, controlled tool routing, input/output checks, source citations, safe abstention, and a small RAGAS-inspired smoke evaluation.
+**Status:** Initial Google Colab run passed all 27 original tests and the ingestion/sample-command checks. The nine-case evaluation exposed an exact-section retrieval mismatch for cross-border escalation. Retrieval normalization and heading-ranking improvements plus two regression tests have been committed; the revised 29-test suite and evaluation need to be rerun before calling the retrieval evaluation verified.
 
 ## Objective
 
@@ -40,7 +40,7 @@ If this repository is already cloned in the current Colab runtime:
 !git -C /content/ml-genai-enterprise-lab pull origin main
 %cd /content/ml-genai-enterprise-lab/10-enterprise-agentic-rag-capstone
 !python -m pip install -r requirements.txt
-!python -m unittest discover -s tests -v
+!python -m unittest discover -s tests -v  # revised suite: 29 expected tests
 !python -m src.ingestion
 !python -m src.evaluate
 !python -m src.cli "Track shipment SHP-1002 and tell me its current status."
@@ -73,7 +73,7 @@ python -m src.evaluate runs a small, manually labelled set of nine questions. It
 - **Context precision at answered sources:** share of cited answer sources matching the hand-labelled expected source.
 - **Citation coverage:** share of evaluation cases whose responses contain citations.
 
-These are RAGAS-inspired smoke metrics implemented locally, not the RAGAS library. They do not measure semantic faithfulness or production answer quality. The hand-labelled dataset is small and synthetic.
+These are RAGAS-inspired smoke metrics implemented locally, not the RAGAS library. They do not measure semantic faithfulness or production answer quality. The hand-labelled dataset is small and synthetic. In the first Colab run, the cross-border escalation case did not include its expected `cross_border.md#Escalation and holds` citation among the answer citations. Retrieval normalization and heading-ranking logic were updated, with exact-section regression tests added. Rerun the revised tests and evaluation to verify the fix; do not rely on the previous aggregate evaluation result.
 
 ## Data and limitations
 

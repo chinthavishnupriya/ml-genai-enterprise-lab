@@ -57,6 +57,16 @@ class HybridRetrievalTests(unittest.TestCase):
         hits = self.retriever.search("Which documents are required for international customs clearance?", top_k=3)
         self.assertIn("cross_border.md", {hit.chunk.source for hit in hits})
 
+    def test_cross_border_escalation_query_finds_exact_section(self):
+        hits = self.retriever.search("How should cross-border delays be escalated?", top_k=2)
+        citations = {hit.chunk.citation for hit in hits}
+        self.assertIn("cross_border.md#Escalation and holds", citations)
+
+    def test_delivered_status_query_finds_exact_section(self):
+        hits = self.retriever.search("What does delivered status mean in the tracking data?", top_k=2)
+        citations = {hit.chunk.citation for hit in hits}
+        self.assertIn("shipment_status.md#Delivered", citations)
+
     def test_temperature_query_finds_temperature_policy(self):
         hits = self.retriever.search("What precautions are required for temperature-controlled shipments?", top_k=3)
         self.assertIn("temperature_control.md", {hit.chunk.source for hit in hits})

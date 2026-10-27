@@ -1,17 +1,29 @@
 {
   "project": "10-enterprise-agentic-rag-capstone",
-  "status": "IMPLEMENTED_PENDING_COLAB_VERIFICATION",
-  "validation_environment": null,
+  "status": "INITIAL_COLAB_RUN_PASSED_27_TESTS_RETRIEVAL_FIX_COMMITTED_RETEST_PENDING",
+  "validation_environment": {
+    "platform": "Google Colab",
+    "python_version": "Not captured in screenshots",
+    "dependencies": "Python standard library only"
+  },
   "unit_tests": {
-    "status": "PENDING",
-    "expected_count": 27,
-    "passed": null,
-    "failed": null
+    "status": "PENDING_AFTER_RETRIEVAL_PATCH",
+    "previous_revision": {
+      "status": "PASS",
+      "passed": 27,
+      "failed": 0
+    },
+    "current_revision_expected_count": 29,
+    "current_revision_passed": null,
+    "current_revision_failed": null,
+    "evidence": "User-provided screenshots show the initial revision reported Ran 27 tests / OK. Two exact-section retrieval regression tests have since been added."
   },
   "data": {
     "synthetic_shipments": 7,
     "policy_files": 6,
-    "ingestion": "IMPLEMENTED_PENDING_VERIFICATION"
+    "policy_chunks_loaded": 25,
+    "ingestion": "PASS",
+    "evidence": "Colab output reported 7 shipments loaded and 25 policy chunks loaded."
   },
   "architecture": [
     "Validated shipment JSONL ingestion with duplicate and schema checks",
@@ -25,12 +37,22 @@
     "Hand-labelled RAGAS-inspired smoke evaluation"
   ],
   "evaluation": {
-    "status": "PENDING",
+    "status": "RAN_WITH_OBSERVED_EXACT_SECTION_MISMATCH; RETEST_AFTER_PATCH_PENDING",
     "cases": 9,
     "expected_source_match_rate": null,
     "context_precision_at_answered_sources": null,
     "citation_coverage": null,
-    "note": "These are local smoke metrics with manually labelled synthetic cases, not the RAGAS package and not a production-quality evaluation."
+    "observed_issue": {
+      "question": "How should cross-border delays be escalated?",
+      "expected_citation": "cross_border.md#Escalation and holds",
+      "displayed_answer_citations": [
+        "cross_border.md#Synthetic Cross-Border Logistics Policy",
+        "delay_escalation.md#Severity levels"
+      ],
+      "matched": false
+    },
+    "remediation": "Added inflection normalization (e.g. escalated/escalation) and section-heading ranking bonus; added two exact-section regression tests. Run the revised evaluation again before recording aggregate metrics.",
+    "note": "RAGAS-inspired deterministic smoke metrics, not the RAGAS package. The nine-case output's aggregate metrics were not fully visible in the provided screenshot, so they have not been inferred."
   },
   "security_scope": {
     "tools_read_only": true,
@@ -39,8 +61,28 @@
     "automatic_write_actions": false,
     "limitations": [
       "Rule-based prompt injection and PII checks can miss patterns.",
-      "Lexical retrieval can miss semantic paraphrases.",
+      "Lexical retrieval can miss semantic paraphrases; an exact-section mismatch was observed and a ranking fix is pending verification.",
       "All sources and shipments are fictional."
+    ]
+  },
+  "smoke_checks": {
+    "status": "PASS",
+    "examples": [
+      {
+        "check": "shipment lookup SHP-1002",
+        "status": "PASS",
+        "observed": "Returned the synthetic Delayed record with source citation."
+      },
+      {
+        "check": "customs policy retrieval",
+        "status": "PASS",
+        "observed": "Returned a policy answer with local citations."
+      },
+      {
+        "check": "prompt injection check",
+        "status": "PASS",
+        "observed": "The system-prompt disclosure request was blocked."
+      }
     ]
   }
 }

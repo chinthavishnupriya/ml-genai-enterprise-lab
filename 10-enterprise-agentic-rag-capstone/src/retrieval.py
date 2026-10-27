@@ -11,12 +11,32 @@ STOPWORDS = {
     "do", "can", "i", "we", "you", "it", "this", "that", "my", "our", "your",
     "about", "please", "tell", "me", "show", "give", "from", "by", "as", "at",
 }
+# Normalize frequent inflections that matter for section-heading retrieval.
+TOKEN_ALIASES = {
+    "delays": "delay",
+    "delayed": "delay",
+    "delaying": "delay",
+    "escalate": "escalation",
+    "escalated": "escalation",
+    "escalating": "escalation",
+    "escalations": "escalation",
+    "deliver": "delivery",
+    "delivered": "delivery",
+    "deliveries": "delivery",
+}
 
 
 def tokenize(text: str) -> list[str]:
     words = re.findall(r"[a-z0-9]+", text.casefold())
-    return [word[:-1] if len(word) > 4 and word.endswith("s") and not word.endswith(("ss", "us", "is")) else word
-            for word in words if word not in STOPWORDS and len(word) > 1]
+    result = []
+    for word in words:
+        if word in STOPWORDS or len(word) <= 1:
+            continue
+        normalized = TOKEN_ALIASES.get(word, word)
+        if normalized == word and len(word) > 4 and word.endswith("s") and not word.endswith(("ss", "us", "is")):
+            normalized = word[:-1]
+        result.append(normalized)
+    return result
 
 
 class HybridRetriever:
@@ -91,13 +111,18 @@ class HybridRetriever:
         bm25_scaled = self._scale(bm25)
         tfidf_scaled = self._scale(tfidf)
         q_phrase = " ".join(q_terms)
+        query_term_set = set(q_terms)
         scored = []
         for i, chunk in enumerate(self.chunks):
             if bm25[i] <= 0 and tfidf[i] <= 0:
                 continue
             doc_terms = " ".join(self.tokens[i])
             phrase_bonus = 0.05 if q_phrase and q_phrase in doc_terms else 0.0
-            score = 0.65 * bm25_scaled[i] + 0.35 * tfidf_scaled[i] + phrase_bonus
+            section_terms = set(tokenize(chunk.section))
+            # Prefer a specific heading that matches the user's normalized intent.
+            heading_overlap = len(query_term_set & section_terms)
+            heading_bonus = 0.08 * heading_overlap
+            score = 0.65 * bm25_scaled[i] + 0.35 * tfidf_scaled[i] + phrase_bonus + heading_bonus
             scored.append(SearchHit(chunk, score, bm25_scaled[i], tfidf_scaled[i]))
         scored.sort(key=lambda hit: (-hit.score, hit.chunk.source, hit.chunk.section))
         return scored[:top_k]
